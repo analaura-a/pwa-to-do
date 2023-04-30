@@ -326,11 +326,39 @@ footer {
     padding: 48px 48px 118px 48px;
     position: relative;
 
+    text-align: left;
     background: var(--color-white);
     box-shadow: 0px 4px 24px 0px hsla(180, 3%, 85%, 0.1);
     border-radius: 1.5rem;
+    border: none;
 
     cursor: pointer;
+    transition: background-color linear 240ms;
+}
+
+.list:hover{
+    background-color: var(--color-gray-200);
+}
+
+.delete-list{
+    position: absolute;
+    top: 29px;
+    right: 29px;
+    opacity: 0;
+
+    transition: opacity linear 240ms;
+}
+
+.list:hover .delete-list{
+    opacity: 1;
+}
+
+.delete-list > path{
+    transition: fill linear 240ms;
+}
+
+.delete-list:hover > path{
+    fill: var(--font-color-light);
 }
 
 .list-type {
@@ -400,9 +428,16 @@ footer {
     min-height: 350px;
     padding: 48px;
 
+    background-color: transparent;
     border: 4px dashed var(--color-gray-200);
     border-radius: 1.5rem;
     cursor: pointer;
+
+    transition: background-color linear 240ms;
+}
+
+.add-list:hover{
+    background-color: var(--color-gray-200);
 }
 
 .add-list>svg {
