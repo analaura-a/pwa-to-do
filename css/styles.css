@@ -123,7 +123,7 @@ body {
 }
 
 .subtitle {
-    font-size: clamp(16px, 0.5vw + 16px, 24px);
+    font-size: clamp(1rem, 0.5vw + 1rem, 1.5rem);
     font-weight: var(--font-weight-regular);
     line-height: 1.2;
     color: var(--font-color-light);
@@ -146,10 +146,10 @@ body {
 .main-cta {
     display: inline-block;
     margin: 0 auto;
-    padding: 16px 60px;
+    padding: 1rem 3.75rem;
     border: none;
     border-radius: 62.5rem;
-    box-shadow: 0px 4px 18px hsla(234, 52%, 52%, 0.2);
+    box-shadow: 0px 0.25rem 1.125rem hsla(234, 52%, 52%, 0.2);
     cursor: pointer;
 }
 
@@ -317,9 +317,10 @@ footer {
 }
 
 
+
 /* APP PAGE (Listado) */
 /* Listas de tareas */
-.list-page .title-page {
+.app-page .title-page {
     margin-bottom: 3.75rem;
 }
 
@@ -389,7 +390,7 @@ footer {
 
 .list-title {
     overflow: hidden;
-    line-height: 2rem;
+    line-height: 1.8rem;
     max-height: 4rem;
     -webkit-box-orient: vertical;
     display: block;
@@ -479,9 +480,12 @@ footer {
     }
 }
 
+
+
 /* Ventana modal (agregar lista de tarea) */
 .bg-modal {
-    display: grid;
+    /* display: grid; */
+    display: none;
     place-items: center;
     position: fixed;
     z-index: 101;
@@ -500,7 +504,7 @@ footer {
     gap: 40px;
 
     position: relative;
-    width: 90%;
+    width: 97%;
     max-width: 600px;
 
     padding: 80px 40px 40px 40px;
@@ -579,10 +583,10 @@ footer {
 
 #addListForm input[type=submit] {
     margin-top: 1.25rem;
-    padding: 0.875rem 3.75rem;
+    padding: 0.875rem 4.375rem;
 }
 
-/*Radio buttons*/
+/*Custom radio buttons*/
 .containerRadioButtons {
     display: flex;
     flex-direction: column;
@@ -637,3 +641,8 @@ footer {
         margin-right: 6px;
     }
 }
+
+
+
+/* APP PAGE (Detalle) */
+/* Lista de tareas en particular */
