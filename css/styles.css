@@ -56,9 +56,11 @@ h6 {
     --satoshi-font: 'Satoshi', sans-serif;
     --font-64px: 4rem;
     --font-40px: 2.5rem;
+    --font-32px: 2rem;
     --font-24px: 1.5rem;
     --font-20px: 1.25rem;
     --font-16px: 1rem;
+    --font-14px: 0.875rem;
     --font-color-title: hsl(240, 2%, 32%);
     --font-color-light: hsl(212, 7%, 41%);
     --font-color-dark: hsl(212, 10%, 30%);
@@ -74,8 +76,6 @@ h6 {
     --color-gray-100: hsl(180, 11%, 98%);
     --color-gray-200: hsl(200, 12%, 95%);
     --color-gray-300: hsl(210, 9%, 91%);
-
-    --spacing-120px: 120px;
 }
 
 
@@ -100,6 +100,13 @@ a {
 }
 
 .h3 {
+    font-size: var(--font-24px);
+    font-weight: bold;
+    line-height: 1.1;
+    color: var(--font-color-title);
+}
+
+.h4 {
     font-size: var(--font-20px);
     font-weight: var(--font-weight-bold);
     line-height: 1.3;
@@ -123,6 +130,11 @@ a {
     line-height: 1.4;
 }
 
+.bold-paragraph {
+    font-size: var(--font-20px);
+    font-weight: var(--font-weight-bold);
+}
+
 .main-cta {
     display: inline-block;
     margin: 0 auto;
@@ -142,6 +154,10 @@ a {
 
 .text-white {
     color: var(--color-white);
+}
+
+.text-light {
+    color: var(--font-color-light);
 }
 
 .text-dark {
@@ -208,7 +224,7 @@ a {
     text-align: center;
 }
 
-.margin-auto{
+.margin-auto {
     margin: 0 auto;
 }
 
@@ -251,7 +267,7 @@ footer {
     align-items: center;
     gap: 25px;
 
-    margin: 50px auto 0 auto;
+    margin: 3.75rem auto 0 auto;
     padding: 25px 0 25px 0;
 }
 
@@ -280,7 +296,135 @@ footer {
         gap: 0;
     }
 
-    .footer-credits{
+    .footer-credits {
         align-items: flex-start;
+    }
+}
+
+
+/* APP PAGE (Listado) */
+/* Listas de tareas */
+.list-page .title-page {
+    margin-bottom: 3.75rem;
+}
+
+.lists-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 1.875rem 1.875rem;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 20px;
+
+    max-width: 330px;
+    min-height: 350px;
+    padding: 48px 48px 118px 48px;
+    position: relative;
+
+    background: var(--color-white);
+    box-shadow: 0px 4px 24px 0px hsla(180, 3%, 85%, 0.1);
+    border-radius: 1.5rem;
+
+    cursor: pointer;
+}
+
+.list-type {
+    font-size: var(--font-14px);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-white);
+
+    max-width: max-content;
+    padding: 0.25rem 1rem;
+    background-color: var(--color-primary);
+    border-radius: 62.5rem;
+}
+
+.list-title {
+    overflow: hidden;
+    line-height: 2rem;
+    max-height: 4rem;
+    -webkit-box-orient: vertical;
+    display: block;
+    display: -webkit-box;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+}
+
+.list-description {
+    margin-top: 8px;
+    overflow: hidden;
+    line-height: 1.4rem;
+    max-height: 4.2rem;
+    -webkit-box-orient: vertical;
+    display: block;
+    display: -webkit-box;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+}
+
+
+.list-task-count {
+    background-color: var(--color-gray-100);
+
+    max-width: max-content;
+    padding: 16px;
+    border-radius: 1.3rem;
+    align-self: flex-end;
+
+    position: absolute;
+    top: 250px;
+    right: 48px;
+}
+
+.list-task-count::after {
+    content: url(../imgs/svg/check-list.svg);
+    position: absolute;
+    top: 38px;
+    right: -10px;
+}
+
+.add-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    max-width: 330px;
+    min-height: 350px;
+    padding: 48px;
+
+    border: 4px dashed var(--color-gray-200);
+    border-radius: 1.5rem;
+    cursor: pointer;
+}
+
+.add-list>svg {
+    padding: 8px;
+    background-color: #F1F3F4;
+    border-radius: 16px;
+}
+
+.add-list>p {
+    font-size: var(--font-24px);
+    font-weight: var(--font-weight-bold);
+    color: var(--font-color-inactive);
+    text-align: center;
+    line-height: 2rem;
+}
+
+@media screen and (min-width: 400px) {
+    .list {
+        min-width: 330px;
+    }
+
+    .add-list {
+        min-width: 330px;
     }
 }
