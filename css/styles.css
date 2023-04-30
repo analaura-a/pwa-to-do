@@ -1,0 +1,286 @@
+/* RESET */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+html,
+body {
+    height: 100%;
+}
+
+
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+}
+
+
+:root {
+    --satoshi-font: 'Satoshi', sans-serif;
+    --font-64px: 4rem;
+    --font-40px: 2.5rem;
+    --font-24px: 1.5rem;
+    --font-20px: 1.25rem;
+    --font-16px: 1rem;
+    --font-color-title: hsl(240, 2%, 32%);
+    --font-color-light: hsl(212, 7%, 41%);
+    --font-color-dark: hsl(212, 10%, 30%);
+    --font-color-inactive: hsl(212, 8%, 61%);
+    --font-weight-black: 900;
+    --font-weight-bold: 700;
+    --font-weight-medium: 500;
+    --font-weight-regular: 400;
+
+    --color-white: #fefefe;
+    --color-primary: hsl(234, 86%, 68%);
+    --color-primary-light: hsl(234, 83%, 79%);
+    --color-gray-100: hsl(180, 11%, 98%);
+    --color-gray-200: hsl(200, 12%, 95%);
+    --color-gray-300: hsl(210, 9%, 91%);
+
+    --spacing-120px: 120px;
+}
+
+
+
+/* ESTILOS GENERALES */
+body {
+    background: var(--color-gray-100);
+    font-family: var(--satoshi-font);
+}
+
+a {
+    text-decoration: none;
+}
+
+/*Tipografía*/
+.h1 {
+    font-size: clamp(2.5rem, 1vw + 2.5rem, 4rem);
+    font-weight: var(--font-weight-black);
+    line-height: 1.2;
+    color: var(--font-color-title);
+    text-align: center;
+}
+
+.h3 {
+    font-size: var(--font-20px);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.3;
+    color: var(--font-color-title);
+    text-align: center;
+}
+
+.subtitle {
+    font-size: clamp(16px, 0.5vw + 16px, 24px);
+    font-weight: var(--font-weight-regular);
+    line-height: 1.2;
+    color: var(--font-color-light);
+    text-align: center;
+    max-width: 50ch;
+    margin: 0 auto;
+}
+
+.paragraph {
+    font-size: var(--font-16px);
+    font-weight: var(--font-weight-regular);
+    line-height: 1.4;
+}
+
+.main-cta {
+    display: inline-block;
+    margin: 0 auto;
+    padding: 16px 60px;
+    border-radius: 62.5rem;
+    box-shadow: 0px 4px 18px hsla(234, 52%, 52%, 0.2)
+}
+
+/*Tipografía (colores)*/
+.text-primary {
+    color: var(--color-primary);
+}
+
+.text-title {
+    color: var(--font-color-title);
+}
+
+.text-white {
+    color: var(--color-white);
+}
+
+.text-dark {
+    color: var(--font-color-dark);
+}
+
+
+/*Colores*/
+.primary {
+    background-color: var(--color-primary);
+}
+
+.svg-white {
+    fill: var(--color-gray-200);
+}
+
+.svg-primary {
+    fill: var(--color-primary);
+}
+
+.svg-primary-light {
+    fill: var(--color-primary-light);
+}
+
+/*Espaciado*/
+.container {
+    width: 90%;
+    max-width: 1200px;
+}
+
+.title-margin {
+    margin: 120px 0 16px 0;
+}
+
+.margin-main-cta {
+    margin: 40px auto 0 auto;
+}
+
+
+/* INDEX (Home/Landing Page) */
+/* NAVBAR */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin: 0 auto;
+    padding: 1.875rem 0 0 0;
+}
+
+.nav-links {
+    font-size: clamp(1rem, 1vw + 0.9rem, 1.3rem);
+    font-weight: var(--font-weight-black);
+}
+
+.site-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* TITLE */
+.title-page {
+    text-align: center;
+}
+
+.margin-auto{
+    margin: 0 auto;
+}
+
+/* FEATURES */
+.card-features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: stretch;
+    gap: 1.875rem 1.875rem;
+    margin-top: 3.75rem;
+}
+
+.feature {
+    background-color: var(--color-gray-200);
+    border-radius: var(--font-24px);
+    box-shadow: 0px 4px 24px 0px hsla(180, 3%, 85%, 0.1);
+
+    max-width: 18.75rem;
+    padding: 3rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.pill-svg {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+}
+
+/* FOOTER */
+footer {
+    border-top: 1.5px solid var(--color-gray-200);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+
+    margin: 50px auto 0 auto;
+    padding: 25px 0 25px 0;
+}
+
+.footer-credits {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.footer-socials {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.socials-svg {
+    background-color: var(--color-gray-200);
+    padding: 10px;
+    border-radius: 16px;
+}
+
+@media screen and (min-width: 600px) {
+    footer {
+        flex-direction: row;
+        gap: 0;
+    }
+
+    .footer-credits{
+        align-items: flex-start;
+    }
+}
