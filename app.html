@@ -38,11 +38,11 @@
 
     <main>
         <section class="container margin-auto app-page">
-            <div class="title-page">
-                <span></span>
-                <h1 class="h1 title-margin">Mis listas de tareas</h1>
-                <p class="subtitle">¡Mantené tus to-dos ordenados agrupándolos por listas!</p>
-                <p class="subtitle">Podés crear todas las que necesites.</p>
+            <div class="title-page title-margin">
+                <span class="list-type regular-size-text title-margin-bottom">Personal</span>
+                <h1 class="h1 title-margin-bottom">Mis deberes</h1>
+                <p class="subtitle">Esta es una descripción de la lista, por ejemplo, acá voy a poner mis tareas
+                    pendientes personales.</p>
             </div>
 
             <div class="main-content">
@@ -153,7 +153,79 @@
                 </div> -->
 
                 <!--Contenido de la página de detalle-->
-            </div>
+                <form action="#" id="addTaskForm">
+                    <input type="text" id="newTask" name="newTask" placeholder="Agregar una nueva tarea..." required>
+                    <button type="submit">Agregar tarea</button>
+                </form>
+
+                <div class="filters-container">
+                    <div class="filters">
+                        <p class="bold-paragraph text-title">Filtrar por:</p>
+                        <button type="button" class="filter-button filter-selected">Estado</button>
+                        <button type="button" class="filter-button">Prioridad</button>
+                    </div>
+                    <p>7 tareas en total</p>
+                </div>
+
+                <div class="tasks-container">
+                    <div class="column-tasks">
+
+                        <div class="tasks-info">
+                            <h2 class="h3">Pendientes</h2>
+                            <span class="task-counter">4</span>
+                        </div>
+
+                        <div class="tasks">
+                            <div class="task">
+                                <input type="checkbox" id="task1">
+                                <label for="task1"><span class="custom-checkbox"></span>Lavar la ropa</label>
+                                <!--SVG acá (delete)-->
+                            </div>
+
+                            <div class="task">
+                                <input type="checkbox" id="task2">
+                                <label for="task2"><span class="custom-checkbox"></span>Pasear al perro</label>
+                                <!--SVG acá (delete)-->
+                            </div>
+
+                            <div class="task">
+                                <input type="checkbox" id="task3">
+                                <label for="task3"><span class="custom-checkbox"></span>Limpiar mi cuarto</label>
+                                <!--SVG acá (delete)-->
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="column-tasks">
+
+                        <div class="tasks-info">
+                            <h2 class="h3">Completadas</h2>
+                            <span class="task-counter">3</span>
+                        </div>
+
+                        <div class="tasks">
+                            <div class="task">
+                                <input type="checkbox" id="task4" checked>
+                                <label for="task4"><span class="custom-checkbox"></span>Llamar a mamá</label>
+                                <!--SVG acá (delete)-->
+                            </div>
+
+                            <div class="task">
+                                <input type="checkbox" id="task5" checked>
+                                <label for="task5"><span class="custom-checkbox"></span>Comprar leche</label>
+                                <!--SVG acá (delete)-->
+                            </div>
+
+                            <div class="task">
+                                <input type="checkbox" id="task6" checked>
+                                <label for="task6"><span class="custom-checkbox"></span>Arreglar agujero en la cocina
+                                    que gotea</label>
+                                <!--SVG acá (delete)-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
         </section>
 
@@ -172,9 +244,9 @@
 
                     <div class="formControl-description">
                         <label for="description" class="bold-paragraph text-title formLabel">Descripción</label>
-                        <textarea rows="5" maxlength="80" id="description" name="description"
+                        <textarea rows="5" maxlength="100" id="description" name="description"
                             placeholder="Esta va a ser mi lista para..." class="input-text"></textarea>
-                        <p class="feedback-text">Máximo 80 caracteres.</p>
+                        <p class="feedback-text">Máximo 100 caracteres.</p>
                     </div>
 
                     <div class="formControl-type">
