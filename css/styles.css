@@ -879,9 +879,11 @@ footer {
     word-break: break-word;
 
     cursor: pointer;
+    text-decoration: none;
+    transition: text-decoration ease-in-out 220ms, color ease-in-out 220ms;
 }
 
-.tasks .task>label::after {
+/* .tasks .task>label::after {
     content: "";
     position: absolute;
     top: calc(50% + 0.5px);
@@ -889,7 +891,7 @@ footer {
     right: 0;
     height: 1px;
     width: auto;
-    background-color: black;
+    background-color: var(--font-color-inactive);
 
     transform: scaleX(0);
     transform-origin: left;
@@ -898,7 +900,7 @@ footer {
 
 .task>input[type="checkbox"]:checked+label::after {
     transform: scaleX(1);
-}
+} */
 
 .tasks .task>input[type="checkbox"] {
     opacity: 0;
@@ -921,7 +923,7 @@ footer {
 }
 
 .task>input[type="checkbox"]:checked+label {
-    /* text-decoration: line-through; */
+    text-decoration: line-through;
     color: var(--font-color-inactive);
 }
 
