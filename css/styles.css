@@ -266,6 +266,21 @@ a {
     font-weight: var(--font-weight-black);
 }
 
+.nav-link-todo {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+}
+
+.arrow-svg-right {
+    transition: transform linear 240ms;
+}
+
+.nav-link-todo:hover .arrow-svg-right {
+    transform: translateX(6px);
+}
+
 .site-logo {
     display: flex;
     align-items: center;
