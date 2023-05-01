@@ -853,9 +853,10 @@ footer {
 }
 
 .tasks .task>label {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    width: 100%;
+    /* width: 100%; */
+    position: relative;
 
     font-size: var(--font-16px);
     font-weight: var(--font-weight-regular);
@@ -863,6 +864,25 @@ footer {
     word-break: break-word;
 
     cursor: pointer;
+}
+
+.tasks .task>label::after {
+    content: "";
+    position: absolute;
+    top: calc(50% + 0.5px);
+    left: 1.9rem;
+    right: 0;
+    height: 1px;
+    width: auto;
+    background-color: black;
+
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform ease-in-out 220ms;
+}
+
+.task>input[type="checkbox"]:checked+label::after {
+    transform: scaleX(1);
 }
 
 .tasks .task>input[type="checkbox"] {
@@ -882,11 +902,12 @@ footer {
     border-radius: 4px;
     cursor: pointer;
 
-    transition: background-color ease-in-out 220ms;
+    transition: background ease-in-out 220ms;
 }
 
 .task>input[type="checkbox"]:checked+label {
-    text-decoration: line-through;
+    /* text-decoration: line-through; */
+    color: var(--font-color-inactive);
 }
 
 .task>input[type="checkbox"]:checked+label .custom-checkbox {
