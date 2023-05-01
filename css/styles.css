@@ -799,7 +799,7 @@ footer {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 40px;
+    gap: 64px;
 
     margin: 3.75rem 0 6.75rem 0;
 }
@@ -904,6 +904,7 @@ footer {
 @media screen and (min-width: 600px) {
     .tasks-container {
         flex-direction: row;
+        gap: 40px;
     }
 
     .column-tasks {
