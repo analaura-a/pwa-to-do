@@ -159,7 +159,7 @@ body {
 }
 
 .main-cta:hover {
-    box-shadow: 0px 0.25rem 1.125rem 8px hsla(234, 57%, 57%, 0.158);
+    box-shadow: 0px 0.25rem 1.125rem 8px hsl(234deg 65.14% 61.6% / 22%);
 }
 
 .filter-button {
