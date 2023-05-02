@@ -11,12 +11,12 @@
     "background_color": "hsl(180, 11%, 98%)",
     "display": "standalone",
     "icons": [{
-            "src": "./imgs/png/icon-72x72",
+            "src": "./imgs/png/icon-72x72.png",
             "sizes": "72x72",
             "type": "image/png"
         },
         {
-            "src": "./imgs/png/icon-96x96",
+            "src": "./imgs/png/icon-96x96.png",
             "sizes": "96x96",
             "type": "image/png"
         },
