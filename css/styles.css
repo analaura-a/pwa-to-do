@@ -181,7 +181,6 @@ body {
     transform: translate(0, -2px);
 }
 
-
 .filter-selected {
     color: var(--color-white);
     background-color: hsl(232deg 69.85% 60.82%);
@@ -211,7 +210,6 @@ a {
 .text-dark {
     color: var(--font-color-dark);
 }
-
 
 /*Colores*/
 .primary {
@@ -447,6 +445,11 @@ footer {
     border-radius: 62.5rem;
 }
 
+.type-display,
+.nav-display {
+    display: none;
+}
+
 .list-title {
     overflow: hidden;
     line-height: 1.9rem;
@@ -543,7 +546,6 @@ footer {
 
 /* Ventana modal (agregar lista de tarea) */
 .bg-modal {
-    /* display: grid; */
     display: none;
     place-items: center;
     position: fixed;
@@ -616,6 +618,7 @@ footer {
 
 .label-radioButton {
     display: inline !important;
+    cursor: pointer;
 }
 
 .input-text {

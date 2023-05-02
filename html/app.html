@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="../css/styles.css">
 
     <!--JavaScript-->
-    <script src="../js/app.js" defer></script>
+
 
     <!--Manifest-->
     <link rel="manifest" href="/manifest.json">
@@ -40,7 +40,7 @@
                 <a href="../index.html" class="nav-links text-primary">To-do</a>
             </div>
 
-            <div class="nav-link-todo">
+            <div class="nav-link-todo nav-display">
                 <a href="app.html" class="nav-links text-title">Volver a mis listas</a>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewbox="0 0 48 48"
                     class="arrow-svg-right">
@@ -53,13 +53,13 @@
     <main>
         <section class="container margin-auto app-page">
             <div class="title-page title-margin">
-                <span class="list-type regular-size-text title-margin-bottom">Personal</span>
-                <h1 class="h1 title-margin-bottom">Mis deberes</h1>
-                <p class="subtitle">Esta es una descripción de la lista, por ejemplo, acá voy a poner mis tareas
-                    pendientes personales.</p>
+                <span class="list-type regular-size-text title-margin-bottom type-display">Personal</span>
+                <h1 class="h1 title-margin-bottom">Mis listas de tareas</h1>
+                <p class="subtitle">¡Mantené tus to-dos ordenados agrupándolos por listas! <br>
+                    Podés crear todas las que necesites.</p>
             </div>
 
-            <div class="main-content">
+            <div class="main-content" id="dinamic-content">
                 <!--Contenido de la página de listado-->
                 <!-- <div class="lists-container">
                     <button class="list">
@@ -166,8 +166,15 @@
                     </button>
                 </div> -->
 
+
+
+
+
+
+
+
                 <!--Contenido de la página de detalle-->
-                <form action="#" id="addTaskForm">
+                <!-- <form action="#" id="addTaskForm">
                     <input type="text" id="newTask" name="newTask" placeholder="Agregar una nueva tarea..." required>
                     <button type="submit">Agregar tarea</button>
                 </form>
@@ -282,12 +289,12 @@
                         </div>
                     </div>
                     
-                </div>
+                </div> -->
 
         </section>
 
         <!--Ventana modal (agregar nueva lista de tareas)-->
-        <div class="bg-modal">
+        <div class="bg-modal" id="bg-modal-newlist">
             <section class="modal">
                 <h2 class="h2">Crear una nueva <span class="text-primary">lista de tareas</span></h2>
 
@@ -398,6 +405,7 @@
 
     </footer>
 
+    <script src="../js/app.js"></script>
 </body>
 
 </html>
