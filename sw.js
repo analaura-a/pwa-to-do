@@ -1,3 +1,12 @@
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+        navigator.serviceWorker
+            .register("./sw.js")
+            .then(res => console.log("service worker registrado", res))
+            .catch(err => console.log("service worker no registrado", err));
+    });
+}
+
 self.addEventListener('install', async e => {
     console.log("Service Worker instalado");
 
@@ -17,12 +26,4 @@ self.addEventListener("activate", () => {
     console.log("Service Worker activado");
 })
 
-
-if ("serviceWorker" in navigator) {
-    window.addEventListener("load", function () {
-        navigator.serviceWorker
-            .register("./sw.js")
-            .then(res => console.log("service worker registered", res))
-            .catch(err => console.log("service worker not registered", err));
-    });
-}
+self.addEventListener('fetch', () => console.log("fetch"));
