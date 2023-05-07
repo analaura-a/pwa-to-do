@@ -1,41 +1,10 @@
-// try {
-//     let data = await fetch('...');
-// } catch (e) {
-//     console.log(e);
-// }
-
-// data
-//     .then(r => r.json())
-//     .catch(json => console.log(json));
-
-
-// fetch('https://jsonplaceholder.typicode.com/photos')
-//     .then(response => response.json())
-//     .then(json => console.log(json))
-
-
-
-
-// async function fetchTaskLists() {
-//     let response = await fetch('../tasks.json');
-//     let photos = response.json();
-//     return photos
-// }
-
-// fetchTaskLists()
-//     .then(res => console.log(res))
-//     .catch(json => console.log(json));
-
-
-
-/*Elementos HTML*/
+/* Elementos HTML */
 let appContentContainer = document.getElementById('dinamic-content');
 let modalAddNewList = document.getElementById('bg-modal-newlist');
 let divTasklistsContainer;
 
 
-
-
+/* FETCH */
 let fetchTaskLists = async function () {
     try {
         let response = await fetch('../tasks.json');
@@ -47,8 +16,7 @@ let fetchTaskLists = async function () {
 }
 
 
-
-
+/* Función para mostrar el listado de "Listas de tareas" */
 let renderTaskLists = function () {
 
     //Vaciamos el contenedor
@@ -57,10 +25,10 @@ let renderTaskLists = function () {
     //Creamos el contenedor de las cards 1 sola vez y lo appendeamos dentro del HTML
     crearTasklistsContainer();
 
-    //Lo guardamos en una variable
+    //Lo guardamos en una variable para poder acceder a él luego
     divTasklistsContainer = document.getElementById('divTasklistsContainer');
 
-    //Renderizamos las task lists por cada una de las que existen en el JSON
+    //Renderizamos las Listas de Tareas por cada una de las que existen en el JSON
     fetchTaskLists()
         .then(data => data.forEach(taskList => {
 
@@ -104,13 +72,12 @@ let renderTaskLists = function () {
 
 }
 
-
-
-
+/* Función para vaciar el contenedor */
 let vaciarContainer = function () {
     appContentContainer.innerHTML = "";
 }
 
+/* Función para vaciar el contenedor */
 let crearTasklistsContainer = function () {
     let divTasklistsContainer = document.createElement("div");
     divTasklistsContainer.classList.add("lists-container");
@@ -119,13 +86,7 @@ let crearTasklistsContainer = function () {
     appContentContainer.appendChild(divTasklistsContainer);
 }
 
-/* ESTO NO FUNCIONA: */
-// let addNewList = function () {
-//     console.log(modalAddNewList)
-//     modalAddNewList.style.display = "grid";
-// };
-
-
+/* Función para crear el botón "Agregar nueva lista de tareas" */
 let crearButtonNewList = function () {
     let button = document.createElement("button");
     button.classList.add("add-list");
@@ -139,6 +100,7 @@ let crearButtonNewList = function () {
             <p>Agregar una nueva lista</p>
         `;
 
+    //Lo agregamos al contenedor junto a las cards de las Listas de tareas
     divTasklistsContainer.append(button);
 
     /* ESTO NO FUNCIONA: */
@@ -147,58 +109,7 @@ let crearButtonNewList = function () {
         modalAddNewList.style.display = "grid";
     })
 
-
 }
 
 
 renderTaskLists();
-
-
-
-
-
-
-
-
-
-
-/* MOSTRAR LISTAS DE TAREAS | Pasos */
-//Identificar contenedor
-//Vaciarlo
-//Crear contenedor de las cards 1 sola vez
-
-//Crear cards por cada una (forEach) de las listas que haya en el JSON
-//Asignarle el contenido y estilos a cada card
-//Appendarlas al contenedor de las cards
-
-//Crear el botón "agregar una lista" 1 sola vez
-//Appendarlo al contenedor de las cards
-
-//Appendar el contenedor de todo en el HTML
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Cositas que no pude hacer: */
-//Acceder a divTasklistsContainer en...
-
-// let forEachTaskList = function () {
-//     fetchTaskLists()
-//         .then(data => data.forEach(taskList => {
-//             divTasklistsContainer.innerHTML = `Hola`
-
-//             //Appendar card al contenedor de las cards
-//         }))
-// }
