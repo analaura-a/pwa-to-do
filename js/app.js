@@ -9,6 +9,7 @@ let fetchTaskLists = async function () {
   try {
     let response = await fetch("../tasks.json");
     let taskLists = response.json();
+    console.log(taskLists);
     return taskLists;
   } catch (e) {
     console.log(e);
@@ -98,18 +99,13 @@ let crearButtonNewList = function () {
 
 /* Funciones para esconder el formulario */
 closeModalAddNewList.addEventListener("click", function () {
-    modalAddNewList.style.display = "none";
+  modalAddNewList.style.display = "none";
 });
-  
+
 window.addEventListener("click", function (event) {
-    if (event.target == modalAddNewList) {
-      modalAddNewList.style.display = "none";
-    }
+  if (event.target == modalAddNewList) {
+    modalAddNewList.style.display = "none";
+  }
 });
-  
 
 renderTaskLists();
-
-
-
-
