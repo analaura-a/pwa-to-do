@@ -568,7 +568,7 @@ footer {
     width: 97%;
     max-width: 600px;
 
-    padding: 80px 40px 40px 40px;
+    padding: 90px 40px 40px 40px;
     border-radius: 24px;
     background: var(--color-gray-100);
 
@@ -577,6 +577,29 @@ footer {
     animation-name: fadein;
     animation-duration: 0.5s;
 
+}
+
+.close-modal {
+    background-color: var(--color-gray-200);
+    padding: 8px;
+    border-radius: 16px;
+
+    position: absolute;
+    top: 35px;
+    right: 40px;
+    cursor: pointer;
+}
+
+.close-modal svg {
+    transform: rotate(45deg);
+}
+
+.close-modal-path {
+    transition: fill ease-in-out 220ms;
+}
+
+.close-modal:hover .close-modal-path {
+    fill: var(--color-primary);
 }
 
 @media screen and (min-width: 650px) {

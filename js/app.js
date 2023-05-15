@@ -1,40 +1,37 @@
 /* Elementos HTML */
-let appContentContainer = document.getElementById('dinamic-content');
-let modalAddNewList = document.getElementById('bg-modal-newlist');
+let appContentContainer = document.getElementById("dinamic-content");
+let modalAddNewList = document.getElementById("bg-modal-newlist");
+let closeModalAddNewList = document.getElementById("close-modal");
 let divTasklistsContainer;
-
 
 /* FETCH */
 let fetchTaskLists = async function () {
-    try {
-        let response = await fetch('../tasks.json');
-        let taskLists = response.json();
-        return taskLists;
-    } catch (e) {
-        console.log(e);
-    }
-}
-
+  try {
+    let response = await fetch("../tasks.json");
+    let taskLists = response.json();
+    return taskLists;
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 /* Función para mostrar el listado de "Listas de tareas" */
-let renderTaskLists = function () {
+let renderTaskLists = async function () {
+  //Vaciamos el contenedor de la página
+  vaciarContainer();
 
-    //Vaciamos el contenedor de la página
-    vaciarContainer();
+  //Creamos el contenedor de las listas de tareas
+  let divTasklistsContainer = crearTasklistsContainer();
 
-    //Creamos el contenedor de las listas de tareas
-    let divTasklistsContainer = crearTasklistsContainer();
+  //Lo agregamos al contenedor de la página
+  appContentContainer.appendChild(divTasklistsContainer);
 
-    //Lo agregamos al contenedor de la página
-    appContentContainer.appendChild(divTasklistsContainer);
-
-    //Renderizamos las Listas de tareas (creamos una card por cada una de las que existen en el JSON)
-    fetchTaskLists()
-        .then(data => data.forEach(taskList => {
-
-            //Creamos las cards y les asignamos su contenido
-            let cardList =
-                `<button class="list" id="${taskList.id}">
+  //Renderizamos las Listas de tareas (creamos una card por cada una de las que existen en el JSON)
+  await fetchTaskLists()
+    .then((data) =>
+      data.forEach((taskList) => {
+        //Creamos las cards y les asignamos su contenido
+        let cardList = `<button class="list" id="${taskList.id}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewbox="0 0 48 48"
                         class="delete-list" id="delete-list-${taskList.id}">
                         <path fill="#949BA3"
@@ -50,65 +47,69 @@ let renderTaskLists = function () {
                         </p>
                     </div>
                     <p class="list-task-count bold-paragraph text-dark">${taskList.tasks.length}/${taskList.tasks.length}</p>
-                </button>`
+                </button>`;
 
-            //Las agregamos en el contenedor de las listas de tareas
-            divTasklistsContainer.innerHTML += cardList;
+        //Las agregamos en el contenedor de las listas de tareas
+        divTasklistsContainer.innerHTML += cardList;
+      })
+    )
+    .catch((json) => console.log(json));
 
-        }))
-        .catch(json => console.log(json));
+  //Creamos el botón "agregar una lista"
+  let buttonNewList = crearButtonNewList();
 
-
-    //Creamos el botón "agregar una lista"
-    let buttonNewList = crearButtonNewList();
-    
-    //Lo agregamos al contenedor de las listas de tareas
-    divTasklistsContainer.appendChild(buttonNewList);
-    console.log(buttonNewList);
-
-    /* ESTO NO FUNCIONA: */
-    buttonNewList.addEventListener("click", function () {
-        console.log('hice click');
-        modalAddNewList.style.display = "grid";
-    })
-   
-
-}
+  //Lo agregamos al contenedor de las listas de tareas
+  divTasklistsContainer.appendChild(buttonNewList);
+  console.log(buttonNewList);
+};
 
 /* Función para vaciar el contenedor */
 let vaciarContainer = function () {
-    appContentContainer.innerHTML = "";
-}
+  appContentContainer.innerHTML = "";
+};
 
 /* Función crear el elemento contenedor de las listas de tareas */
 let crearTasklistsContainer = function () {
-    let divTasklistsContainer = document.createElement("div");
-    divTasklistsContainer.classList.add("lists-container");
-    divTasklistsContainer.setAttribute("id", "divTasklistsContainer");
+  let divTasklistsContainer = document.createElement("div");
+  divTasklistsContainer.classList.add("lists-container");
+  divTasklistsContainer.setAttribute("id", "divTasklistsContainer");
 
-    return divTasklistsContainer;
-}
+  return divTasklistsContainer;
+};
 
 /* Función para crear el botón "Agregar nueva lista de tareas" */
 let crearButtonNewList = function () {
-    let button = document.createElement("button");
-    button.classList.add("add-list");
-    button.setAttribute("id", "add-list");
-    button.innerHTML =
-        `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewbox="0 0 48 48">
+  let button = document.createElement("button");
+  button.classList.add("add-list");
+  button.setAttribute("id", "add-list");
+  button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewbox="0 0 48 48">
                 <path fill="#949BA3"
                     d="M38 22H26V10a2 2 0 1 0-4 0v12H10a2 2 0 1 0 0 4h12v12a2 2 0 0 0 4 0V26h12a2 2 0 0 0 0-4Z" />
             </svg>
             <p>Agregar una nueva lista</p>`;
 
-    /* ESTO TAMPOCO FUNCIONA: */
-    button.addEventListener("click", function () {
-        console.log('hice click');
-        modalAddNewList.style.display = "grid";
-    })
+  /* Función para mostrar el formulario */
+  button.addEventListener("click", function () {
+    modalAddNewList.style.display = "grid";
+  });
 
-    return button;
-}
+  return button;
+};
 
+/* Funciones para esconder el formulario */
+closeModalAddNewList.addEventListener("click", function () {
+    modalAddNewList.style.display = "none";
+});
+  
+window.addEventListener("click", function (event) {
+    if (event.target == modalAddNewList) {
+      modalAddNewList.style.display = "none";
+    }
+});
+  
 
 renderTaskLists();
+
+
+
+
