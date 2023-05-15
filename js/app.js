@@ -19,24 +19,24 @@ let fetchTaskLists = async function () {
 /* Función para mostrar el listado de "Listas de tareas" */
 let renderTaskLists = function () {
 
-    //Vaciamos el contenedor
+    //Vaciamos el contenedor de la página
     vaciarContainer();
 
-    //Creamos el contenedor de las cards 1 sola vez y lo appendeamos dentro del HTML
-    crearTasklistsContainer();
+    //Creamos el contenedor de las listas de tareas
+    let divTasklistsContainer = crearTasklistsContainer();
 
-    //Lo guardamos en una variable para poder acceder a él luego
-    divTasklistsContainer = document.getElementById('divTasklistsContainer');
+    //Lo agregamos al contenedor de la página
+    appContentContainer.appendChild(divTasklistsContainer);
 
-    //Renderizamos las Listas de Tareas por cada una de las que existen en el JSON
+    //Renderizamos las Listas de tareas (creamos una card por cada una de las que existen en el JSON)
     fetchTaskLists()
         .then(data => data.forEach(taskList => {
 
             //Creamos las cards y les asignamos su contenido
             let cardList =
-                `<button class="list">
+                `<button class="list" id="${taskList.id}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewbox="0 0 48 48"
-                        class="delete-list">
+                        class="delete-list" id="delete-list-${taskList.id}">
                         <path fill="#949BA3"
                             d="M10.742 13.543c-.686 0-1.242.634-1.242 1.413 0 .78.556 1.413 1.24 1.413h26.518c.686 0 1.242-.633 1.242-1.413s-.556-1.413-1.244-1.413h-4.14c-.854-.024-1.756-.642-2.046-1.554l-.049-.161-.183-.63-.007-.021c-.111-.38-.209-.71-.345-1.006-.543-1.19-1.553-2.017-2.718-2.228-.294-.053-.607-.053-.966-.053h-5.604c-.357 0-.67 0-.966.053-1.165.211-2.174 1.038-2.718 2.228-.138.3-.236.635-.347 1.018l-.003.009-.185.63-.049.16c-.29.913-1.042 1.53-1.894 1.555h-4.294Z" />
                         <path fill="#949BA3" fill-rule="evenodd"
@@ -52,23 +52,26 @@ let renderTaskLists = function () {
                     <p class="list-task-count bold-paragraph text-dark">${taskList.tasks.length}/${taskList.tasks.length}</p>
                 </button>`
 
-            //Agregamos las cards en el contenedor de las cards
+            //Las agregamos en el contenedor de las listas de tareas
             divTasklistsContainer.innerHTML += cardList;
 
         }))
         .catch(json => console.log(json));
 
-    //Creamos el botón "agregar una lista" 1 sola vez
-    crearButtonNewList();
+
+    //Creamos el botón "agregar una lista"
+    let buttonNewList = crearButtonNewList();
+    
+    //Lo agregamos al contenedor de las listas de tareas
+    divTasklistsContainer.appendChild(buttonNewList);
+    console.log(buttonNewList);
 
     /* ESTO NO FUNCIONA: */
-    let buttonWithID = document.getElementById('add-list');
-    console.log(buttonWithID)
-
-    buttonWithID.addEventListener("click", function () {
+    buttonNewList.addEventListener("click", function () {
         console.log('hice click');
         modalAddNewList.style.display = "grid";
     })
+   
 
 }
 
@@ -77,13 +80,13 @@ let vaciarContainer = function () {
     appContentContainer.innerHTML = "";
 }
 
-/* Función para vaciar el contenedor */
+/* Función crear el elemento contenedor de las listas de tareas */
 let crearTasklistsContainer = function () {
     let divTasklistsContainer = document.createElement("div");
     divTasklistsContainer.classList.add("lists-container");
     divTasklistsContainer.setAttribute("id", "divTasklistsContainer");
 
-    appContentContainer.appendChild(divTasklistsContainer);
+    return divTasklistsContainer;
 }
 
 /* Función para crear el botón "Agregar nueva lista de tareas" */
@@ -92,23 +95,19 @@ let crearButtonNewList = function () {
     button.classList.add("add-list");
     button.setAttribute("id", "add-list");
     button.innerHTML =
-        `
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewbox="0 0 48 48">
+        `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewbox="0 0 48 48">
                 <path fill="#949BA3"
                     d="M38 22H26V10a2 2 0 1 0-4 0v12H10a2 2 0 1 0 0 4h12v12a2 2 0 0 0 4 0V26h12a2 2 0 0 0 0-4Z" />
             </svg>
-            <p>Agregar una nueva lista</p>
-        `;
+            <p>Agregar una nueva lista</p>`;
 
-    //Lo agregamos al contenedor junto a las cards de las Listas de tareas
-    divTasklistsContainer.append(button);
-
-    /* ESTO NO FUNCIONA: */
+    /* ESTO TAMPOCO FUNCIONA: */
     button.addEventListener("click", function () {
         console.log('hice click');
         modalAddNewList.style.display = "grid";
     })
 
+    return button;
 }
 
 
