@@ -79,7 +79,7 @@ h6 {
     --color-gray-100: hsl(180, 11%, 98%);
     --color-gray-200: hsl(200, 12%, 95%);
     --color-gray-300: hsl(210, 9%, 91%);
-    --color-background-modal: hsla(212, 8%, 61%, 0.7);
+    --color-background-modal: hsla(214, 8%, 61%, 0.57);
 }
 
 
@@ -556,6 +556,7 @@ footer {
     height: 100%;
     overflow: auto;
     background-color: var(--color-background-modal);
+    backdrop-filter: blur(10px);
 }
 
 .modal {
@@ -568,8 +569,9 @@ footer {
     width: 97%;
     max-width: 600px;
 
+    margin: 12px 0;
     padding: 90px 24px 40px 24px;
-    border-radius: 24px;
+    border-radius: 12px;
     background: var(--color-gray-100);
 
     -webkit-animation-name: fadein;
@@ -604,7 +606,9 @@ footer {
 
 @media screen and (min-width: 650px) {
     .modal {
+        margin: 30px 0;
         padding: 100px 90px 80px 90px;
+        border-radius: 24px;
     }
 
     .modal>h2 {
