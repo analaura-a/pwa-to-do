@@ -236,7 +236,7 @@ a {
 }
 
 .title-margin {
-    margin: 7.5rem 0 1rem 0;
+    margin: 6rem 0 1rem 0;
 }
 
 .title-margin-bottom {
@@ -447,8 +447,7 @@ footer {
     border-radius: 62.5rem;
 }
 
-.type-display,
-.nav-display {
+.show-on-detail {
     display: none;
 }
 
