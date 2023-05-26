@@ -2,8 +2,10 @@
 let body = document.getElementById("body");
 let appContentContainer = document.getElementById("dinamic-content");
 let modalAddNewList = document.getElementById("bg-modal-newlist");
+let formAddNewList = document.getElementById("addListForm");
+
 let closeModalAddNewList = document.getElementById("close-modal");
-let divTasklistsContainer;
+// let divTasklistsContainer;
 let deleteTaskListButton;
 
 /* ARRAY Listas de tareas */
@@ -15,8 +17,8 @@ async function fetchTaskLists() {
     let response = await fetch("../tasks.json");
     let taskLists = await response.json();
     return taskLists;
-  } catch (e) {
-    console.log(e);
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -32,18 +34,16 @@ fetchTaskLists()
 
   .catch((json) => console.log(json));
 
-/* Función para mostrar el listado de "Listas de tareas" */
+/* Función para mostrar el listado (Listas de tareas) */
 function renderTaskLists() {
-  //Vaciamos el contenedor de la página
   vaciarContainer();
 
-  //Creamos el contenedor de las listas de tareas y lo agregamos al contenedor de la página
+  //Creamos y agregamos el contenedor de las listas de tareas
   let divTasklistsContainer = crearTasklistsContainer();
   appContentContainer.appendChild(divTasklistsContainer);
 
-  //Renderizamos las listas de tareas (por cada una de las que existe en el arrayTaskLists)
+  //Renderizamos las listas de tareas
   arrayTaskLists.forEach((taskList) => {
-    //Creamos las cards y les asignamos su contenido
     let cardList = `<button class="list" id="${taskList.id}">
                           <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewbox="0 0 48 48"
                               class="delete-list" id="delete-list-${taskList.id}">
@@ -62,43 +62,33 @@ function renderTaskLists() {
                           <p class="list-task-count bold-paragraph text-dark">${taskList.tasks.length}/${taskList.tasks.length}</p>
                       </button>`;
 
-    //Las agregamos en el contenedor de las listas de tareas
     divTasklistsContainer.innerHTML += cardList;
   });
 
-  //Les agregamos a cada una la función para eliminar una lista de tareas
+  //Le agregamos a cada lista la función de eliminar
   arrayTaskLists.forEach((taskList) => {
     deleteTaskListButton = document.getElementById(
       `delete-list-${taskList.id}`
     );
 
-
     deleteTaskListButton.addEventListener("click", function (e) {
-    // Identificamos la lista de tareas
+      // Identificamos la lista de tareas y la eliminamos del array
       let idBoton = e.currentTarget.id;
-      console.log(idBoton);
+      // console.log(idBoton);
 
+      let index = arrayTaskLists.findIndex(
+        (taskList) => `delete-list-${taskList.id}` === idBoton
+      );
+      // console.log(index);
 
-      let index = arrayTaskLists.findIndex(taskList => `delete-list-${taskList.id}` === idBoton);
-      console.log(index);
-
-
-      // Lo eliminamos del carrito
       arrayTaskLists.splice(index, 1);
       console.log(arrayTaskLists);
 
-
-       //Renderizamos nuevamente el listado
-       renderTaskLists();
-
-
+      renderTaskLists();
     });
   });
 
-
-  
-
-  //Creamos el botón "Agregar una nueva lista" y Lo agregamos al contenedor de las listas de tareas
+  //Creamos y agregamos el botón "Agregar una nueva lista de tareas"
   let buttonNewList = crearButtonNewList();
   divTasklistsContainer.appendChild(buttonNewList);
 }
@@ -131,21 +121,63 @@ let crearButtonNewList = function () {
   /* Evento para mostrar el formulario al hacerle click */
   button.addEventListener("click", function () {
     modalAddNewList.style.display = "grid";
-    body.style.overflow = "hidden";
+    body.style.overflowY = "hidden";
   });
 
   return button;
 };
 
 /* Eventos para esconder el formulario */
-closeModalAddNewList.addEventListener("click", function () {
+function hideModal(){
   modalAddNewList.style.display = "none";
   body.style.overflowY = "scroll";
-});
+}
+
+closeModalAddNewList.addEventListener("click", hideModal);
 
 window.addEventListener("click", function (event) {
   if (event.target == modalAddNewList) {
-    modalAddNewList.style.display = "none";
-    body.style.overflowY = "scroll";
+    hideModal();
   }
 });
+
+/* Agregar una nueva lista de tareas */
+formAddNewList.addEventListener("submit", addNewList);
+
+console.log(arrayTaskLists)
+
+function addNewList(e) {
+  e.preventDefault();
+
+  //Obtenemos los valores enviados del form
+  let formName = document.getElementById("name");
+  let formDescription = document.getElementById("description");
+  let formType = document.querySelector('input[name="type"]:checked');
+
+  //Generamos un ID único (?)
+  let id = arrayTaskLists.length + 1;
+  console.log(id);
+
+  //Creamos un objeto con los datos ingresados
+  let newList = {
+    id: id,
+    name: formName.value,
+    description: formDescription.value,
+    type: formType.value,
+    tasks: [],
+  };
+
+  //Agregamos el objeto al arrayTaskLists
+  arrayTaskLists.push(newList);
+  // console.log(arrayTaskLists)
+
+  //Reseteamos los inputs del form
+  formName.value = '';
+  formDescription.value = '';
+  formType.checked = false;
+
+  hideModal();
+
+  renderTaskLists();
+
+}

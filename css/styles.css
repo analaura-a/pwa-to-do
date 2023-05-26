@@ -153,6 +153,7 @@ body {
     padding: 1rem 3.75rem;
     border: none;
     border-radius: 62.5rem;
+    letter-spacing: 0.0313rem;
     box-shadow: 0px 0.25rem 1.125rem hsla(234, 52%, 52%, 0.2);
     cursor: pointer;
     transition: box-shadow linear 240ms;
@@ -384,7 +385,7 @@ footer {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    gap: 1.875rem 1.875rem;
+    gap: 2.875rem 1.875rem;
 }
 
 .list {
@@ -393,6 +394,7 @@ footer {
     justify-content: flex-start;
     gap: 20px;
 
+    min-width: 100%;
     max-width: 330px;
     min-height: 350px;
     padding: 48px 48px 118px 48px;
