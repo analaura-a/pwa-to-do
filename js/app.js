@@ -288,7 +288,7 @@ function renderTasks(e){
   pendingTasks.forEach((task) => {
     let taskItem =  
     `<div class="task">
-      <input type="checkbox" id="${task.id}">
+      <input type="checkbox" id="${task.id}" class="task-checkbox">
       <label for="${task.id}"><span class="custom-checkbox"></span>${task.task_name}</label>
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"
           viewbox="0 0 48 48" class="delete-list delete-list-task">
@@ -319,7 +319,7 @@ function renderTasks(e){
   doneTasks.forEach((task) => {
     let taskItem =  
     `<div class="task">
-      <input type="checkbox" id="${task.id}" checked>
+      <input type="checkbox" id="${task.id}" class="task-checkbox" checked>
       <label for="${task.id}"><span class="custom-checkbox"></span>${task.task_name}</label>
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"
           viewbox="0 0 48 48" class="delete-list delete-list-task">
@@ -334,19 +334,33 @@ function renderTasks(e){
     doneTasksContainer.innerHTML += taskItem
   });
 
+  //Cambiar el estado de las tareas
+  inputCheckbox = document.querySelectorAll(".task-checkbox");
+  inputCheckbox.forEach((element) => {
+    element.addEventListener("click", (e) => {
 
+      //Identificamos la tarea
+      let idCheckbox = e.currentTarget.id;
+      let index = tasks.findIndex((task) => `${task.id}` === idCheckbox);
 
+      //Identificamos su estado
+      let taskStatus = tasks[index].done_status;
+      console.log(tasks[index]);
+    
+      //Cambiamos su estado
+      if (taskStatus === false){
+        taskStatus = true;
+        // element.checked = true;
+      } 
+      
+      if(taskStatus === true){
+        taskStatus = false;
+        // element.checked = false;
+      }
+    
+      console.log(tasks[index]);
 
+    });
+  });
+  
 }
- 
-
-
-
-
-
-
-
-
-
-
-
