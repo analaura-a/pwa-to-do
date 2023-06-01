@@ -98,7 +98,6 @@ function renderTaskLists() {
   arrayTaskLists.forEach((taskList) => {
 
     deleteTaskListButton = document.getElementById(`delete-list-${taskList.id}`);
-
     deleteTaskListButton.addEventListener("click", function (e) {
     
       //Identificamos la lista
@@ -236,22 +235,27 @@ function renderTasks(e){
   listType.textContent = selectedTaskList.type;
 
   // Agregamos contenido propio de la página de detalle
-  appContentContainer.innerHTML += 
-  `<form action="#" id="addTaskForm">
-    <input type="text" id="newTask" name="newTask" placeholder="Agregar una nueva tarea..." required>
-    <button type="submit">Agregar tarea</button>
-  </form>
+  function detailContent(){
+    appContentContainer.innerHTML = '';
 
-  <div class="filters-container">
-    <div class="filters">
-        <p class="bold-paragraph text-title">Filtrar por:</p>
-        <button type="button" class="filter-button filter-selected">Estado</button>
-        <button type="button" class="filter-button">Prioridad</button>
+    appContentContainer.innerHTML += 
+    `<form action="#" id="addTaskForm">
+      <input type="text" id="newTask" name="newTask" placeholder="Agregar una nueva tarea..." required>
+      <button type="submit">Agregar tarea</button>
+    </form>
+
+    <div class="filters-container">
+      <div class="filters">
+          <p class="bold-paragraph text-title">Filtrar por:</p>
+          <button type="button" class="filter-button filter-selected">Estado</button>
+          <button type="button" class="filter-button">Prioridad</button>
+      </div>
+      <p>${tasks.length} tareas en total</p>
     </div>
-    <p>${tasks.length} tareas en total</p>
-  </div>
 
-  <div class="tasks-container" id="tasks-container"></div>`
+    <div class="tasks-container" id="tasks-container"></div>`
+  }
+  detailContent();
 
   /* Ver las tareas (por estado) */
   function showByStatus(){
@@ -304,7 +308,7 @@ function renderTasks(e){
           <input type="checkbox" id="${task.id}" class="task-checkbox">
           <label for="${task.id}"><span class="custom-checkbox"></span>${task.task_name}</label>
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"
-              viewbox="0 0 48 48" class="delete-list delete-list-task">
+              viewbox="0 0 48 48" class="delete-list delete-list-task" id="delete-${task.id}">
               <path fill="#949BA3"
                   d="M10.742 13.543c-.686 0-1.242.634-1.242 1.413 0 .78.556 1.413 1.24 1.413h26.518c.686 0 1.242-.633 1.242-1.413s-.556-1.413-1.244-1.413h-4.14c-.854-.024-1.756-.642-2.046-1.554l-.049-.161-.183-.63-.007-.021c-.111-.38-.209-.71-.345-1.006-.543-1.19-1.553-2.017-2.718-2.228-.294-.053-.607-.053-.966-.053h-5.604c-.357 0-.67 0-.966.053-1.165.211-2.174 1.038-2.718 2.228-.138.3-.236.635-.347 1.018l-.003.009-.185.63-.049.16c-.29.913-1.042 1.53-1.894 1.555h-4.294Z" />
               <path fill="#949BA3" fill-rule="evenodd"
@@ -339,7 +343,7 @@ function renderTasks(e){
           <input type="checkbox" id="${task.id}" class="task-checkbox" checked>
           <label for="${task.id}"><span class="custom-checkbox"></span>${task.task_name}</label>
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"
-              viewbox="0 0 48 48" class="delete-list delete-list-task">
+              viewbox="0 0 48 48" class="delete-list delete-list-task" id="delete-${task.id}">
               <path fill="#949BA3"
                   d="M10.742 13.543c-.686 0-1.242.634-1.242 1.413 0 .78.556 1.413 1.24 1.413h26.518c.686 0 1.242-.633 1.242-1.413s-.556-1.413-1.244-1.413h-4.14c-.854-.024-1.756-.642-2.046-1.554l-.049-.161-.183-.63-.007-.021c-.111-.38-.209-.71-.345-1.006-.543-1.19-1.553-2.017-2.718-2.228-.294-.053-.607-.053-.966-.053h-5.604c-.357 0-.67 0-.966.053-1.165.211-2.174 1.038-2.718 2.228-.138.3-.236.635-.347 1.018l-.003.009-.185.63-.049.16c-.29.913-1.042 1.53-1.894 1.555h-4.294Z" />
               <path fill="#949BA3" fill-rule="evenodd"
@@ -353,10 +357,16 @@ function renderTasks(e){
     }
 
     //Se le agrega a cada tarea la función de cambiar el estado
-    inputCheckbox = document.querySelectorAll(".task-checkbox");
+    let inputCheckbox = document.querySelectorAll(".task-checkbox");
     inputCheckbox.forEach((element) => {
       element.addEventListener("click", changeStatus);
     });
+
+    //Se le agrega a cada tarea la función de eliminarse
+    tasks.forEach((task) => {
+      let svgDeleteTask = document.getElementById(`delete-${task.id}`)
+      svgDeleteTask.addEventListener("click", deleteTask);
+    })
 
   }
 
@@ -381,6 +391,24 @@ function renderTasks(e){
       tasks[index].done_status = false;
     }
 
+    showByStatus();
+
+  }
+
+  function deleteTask(e){
+    console.log('hola')
+
+    //Identificamos la tarea
+    let idSVG = e.currentTarget.id;
+    let index = tasks.findIndex((task) => `delete-${task.id}` === idSVG);
+    console.log(tasks);
+
+
+    //La eliminamos del array
+    tasks.splice(index, 1);
+    console.log(tasks);
+
+    detailContent();
     showByStatus();
 
   }
