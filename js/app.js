@@ -24,7 +24,7 @@ async function fetchTaskLists() {
     let taskLists = await response.json();
     return taskLists;
   } catch (error) {
-    console.log(error);
+    console.log('Hubo un error al intentar obtener el JSON');
   }
 }
 
@@ -53,7 +53,7 @@ function renderTaskLists() {
     element.classList.add("show-on-detail");
   });
 
-  // Cambiamos el contenido del título de la página
+  //Cambiamos el contenido del título de la página
   mainTitle.textContent = "Mis listas de tareas";
   mainSubtitle.innerHTML = `¡Mantené tus to-dos ordenados agrupándolos por listas! <br>
   Podés crear todas las que necesites.`;
@@ -106,7 +106,6 @@ function renderTaskLists() {
 
       //La eliminamos del array
       arrayTaskLists.splice(index, 1);
-      console.log(arrayTaskLists);
 
       renderTaskLists();
 
@@ -184,7 +183,7 @@ function addNewList(e) {
   let formType = document.querySelector('input[name="type"]:checked');
 
   //Generamos un ID único (?)
-  let id = arrayTaskLists.length + 1;
+  let id = arrayTaskLists.length + 100;
 
   //Creamos un objeto con los datos ingresados
   let newList = {
@@ -248,7 +247,6 @@ function renderTasks(e){
       <div class="filters">
           <p class="bold-paragraph text-title">Filtrar por:</p>
           <button type="button" class="filter-button filter-selected">Estado</button>
-          <button type="button" class="filter-button">Prioridad</button>
       </div>
       <p>${tasks.length} tareas en total</p>
     </div>
@@ -368,6 +366,10 @@ function renderTasks(e){
       svgDeleteTask.addEventListener("click", deleteTask);
     })
 
+    //Se agrega la función para crear una nueva tarea
+    let addTaskForm = document.getElementById('addTaskForm');
+    addTaskForm.addEventListener("submit", addTask);
+
   }
 
   showByStatus();
@@ -395,18 +397,44 @@ function renderTasks(e){
 
   }
 
+  //Función para eliminar una tarea
   function deleteTask(e){
-    console.log('hola')
 
     //Identificamos la tarea
     let idSVG = e.currentTarget.id;
     let index = tasks.findIndex((task) => `delete-${task.id}` === idSVG);
-    console.log(tasks);
-
 
     //La eliminamos del array
     tasks.splice(index, 1);
-    console.log(tasks);
+
+    detailContent();
+    showByStatus();
+
+  }
+
+  //Función para agregar una nueva tarea
+  function addTask(e){
+
+    e.preventDefault();
+
+    //Obtenemos los valores enviados por el form
+    let taskName = document.getElementById('newTask');
+
+    //Generamos un ID único (?)
+    let id = `task-${tasks.length + 100}`;
+
+    //Creamos un objeto con los datos ingresados
+    let newTask = {
+      id: id,
+      task_name: taskName.value,
+      done_status: false
+    }
+
+    //Agregamos el objeto al array tasks
+    tasks.push(newTask);
+
+    //Reseteamos los inputs del form
+    taskName.value = '';
 
     detailContent();
     showByStatus();

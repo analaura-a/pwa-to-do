@@ -608,7 +608,7 @@ footer {
         height: auto;
         max-width: 600px;
         margin: 30px 0;
-        padding: 100px 90px 80px 90px;
+        padding: 100px 90px 60px 90px;
         border-radius: 24px;
     }
 
@@ -918,25 +918,6 @@ footer {
     text-decoration: none;
     transition: text-decoration ease-in-out 220ms, color ease-in-out 220ms;
 }
-
-/* .tasks .task>label::after {
-    content: "";
-    position: absolute;
-    top: calc(50% + 0.5px);
-    left: 1.9rem;
-    right: 0;
-    height: 1px;
-    width: auto;
-    background-color: var(--font-color-inactive);
-
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform ease-in-out 220ms;
-}
-
-.task>input[type="checkbox"]:checked+label::after {
-    transform: scaleX(1);
-} */
 
 .tasks .task>input[type="checkbox"] {
     opacity: 0;
