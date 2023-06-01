@@ -64,6 +64,15 @@ function renderTaskLists() {
 
   //Creamos una card por cada lista de tareas
   arrayTaskLists.forEach((taskList) => {
+
+    let tasks = taskList.tasks;
+    let doneTasks = [];
+
+    tasks.forEach((task) => {
+      if (task.done_status === true){
+        doneTasks.push(task);
+      }});
+
     let cardList = `<button class="list" id="${taskList.id}">
                           <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewbox="0 0 48 48"
                               class="delete-list" id="delete-list-${taskList.id}">
@@ -79,7 +88,7 @@ function renderTaskLists() {
                               <p class="paragraph text-light list-description">${taskList.description}
                               </p>
                           </div>
-                          <p class="list-task-count bold-paragraph text-dark">${taskList.tasks.length}/${taskList.tasks.length}</p>
+                          <p class="list-task-count bold-paragraph text-dark">${doneTasks.length}/${tasks.length}</p>
                       </button>`;
 
     divTasklistsContainer.innerHTML += cardList;
@@ -211,9 +220,7 @@ function renderTasks(e){
 
   // Guardamos en variables
   let selectedTaskList = arrayTaskLists[index];
-  // console.log(selectedTaskList);
   let tasks = arrayTaskLists[index].tasks;
-  // console.log(tasks);
 
   vaciarContainer();
 
@@ -246,6 +253,7 @@ function renderTasks(e){
 
   <div class="tasks-container" id="tasks-container"></div>`
 
+  /* Ver las tareas (por estado) */
   function showByStatus(){
 
     //Creamos 2 arrays nuevos a partir del array "tasks", usando el estado de sus tareas ("done_status")
@@ -262,7 +270,7 @@ function renderTasks(e){
       }
     });
 
-    //Seleccionamos los elementos necesarios para mostrar las tareas (POR ESTADO)
+    //Seleccionamos los elementos necesarios para mostrar las tareas
     let tasksContainer = document.getElementById('tasks-container');
     tasksContainer.innerHTML = '';
 
@@ -341,11 +349,10 @@ function renderTasks(e){
         </div>`
 
         doneTasksContainer.innerHTML += taskItem
-
       });
     }
 
-    //Se le agrega a cada input la función para cambiar el estado
+    //Se le agrega a cada tarea la función de cambiar el estado
     inputCheckbox = document.querySelectorAll(".task-checkbox");
     inputCheckbox.forEach((element) => {
       element.addEventListener("click", changeStatus);
@@ -355,6 +362,7 @@ function renderTasks(e){
 
   showByStatus();
 
+  //Función para cambiar el estado de las tareas
   function changeStatus(e){
    
     //Identificamos la tarea
