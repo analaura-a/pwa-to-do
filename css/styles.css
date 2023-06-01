@@ -191,6 +191,10 @@ a {
     text-decoration: none;
 }
 
+.line-height-title{
+    line-height: 1.1;
+}
+
 /*Tipografía (colores)*/
 .text-primary {
     color: var(--color-primary);
