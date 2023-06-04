@@ -155,7 +155,7 @@ function renderTaskLists() {
     array.forEach((taskList) => {
 
       //Creamos una card por cada lista en la base de datos
-      let cardList = `<a class="list" href="detail-page.html" id="${taskList.id}">
+      let cardList = `<button class="list" id="${taskList.id}">
                           <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewbox="0 0 48 48"
                               class="delete-list" id="delete-list-${taskList.id}">
                               <path fill="#949BA3"
@@ -171,17 +171,32 @@ function renderTaskLists() {
                               </p>
                           </div>
                           <p class="list-task-count bold-paragraph text-dark">1/2</p>
-                      </a>`;
+                      </button>`;
 
       //Las agregamos al contenedor
       divTasklistsContainer.innerHTML += cardList;
 
+    });
+
+    array.forEach(taskList => {
+
+      // Botón para borrar lista
       deleteTaskListButton = document.getElementById(`delete-list-${taskList.id}`);
       deleteTaskListButton.addEventListener("click", function () {
         console.log(deleteTaskListButton)
       })
 
-    });
+      // Botón para ver el detalle de la lista
+      taskListPage = document.getElementById(`${taskList.id}`);
+      taskListPage.addEventListener("click", (e) => {
+        if(e.target.tagName == "svg"){
+          return;
+        } else {
+          location.assign("detail-page.html");
+        }
+      });
+
+    })
 
 
 
