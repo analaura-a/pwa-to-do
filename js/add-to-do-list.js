@@ -1,4 +1,4 @@
-/* Elementos HTML */
+/* Elementos HTML DOM */
 let formAddNewList = document.getElementById("addListForm");
 
 
@@ -6,37 +6,50 @@ let formAddNewList = document.getElementById("addListForm");
 formAddNewList.addEventListener("submit", addNewList);
 
 function addNewList(e) {
+
   e.preventDefault();
 
   //Obtenemos los valores enviados por el form
-  let formName = document.getElementById("name");
-  let formDescription = document.getElementById("description");
+  let formName = formAddNewList.name;
+  let formDescription = formAddNewList.description;
   let formType = document.querySelector('input[name="type"]:checked');
 
-  //Generamos un ID único (?)
-  let id = arrayTaskLists.length + 100;
 
   //Creamos un objeto con los datos ingresados
   let newList = {
-    id: id,
     name: formName.value,
     description: formDescription.value,
     type: formType.value,
     tasks: [],
   };
 
-  //Agregamos el objeto al arrayTaskLists
-  arrayTaskLists.push(newList);
+  //Agregamos el objeto a nuestra base de datos indexedDB
+  let db;
+  const DBOpenRequest = indexedDB.open('toDoApp', 1);
 
-  //Reseteamos los inputs del form
-  formName.value = '';
-  formDescription.value = '';
-  formType.checked = false;
+  DBOpenRequest.onsuccess = function(event) {
+    db = event.target.result;
 
-  hideModal();
+    const transaction = db.transaction(['toDoLists'], 'readwrite');
+    let objectStore = transaction.objectStore('toDoLists');
 
-  renderTaskLists();
+    let request = objectStore.add(newList);
 
-  console.log(arrayTaskLists)
+    request.onsuccess = function(event) {
+      console.log('Se agregó la nueva lista de tareas con éxito');
+
+      //Reseteamos los inputs del form
+      formName.value = '';
+      formDescription.value = '';
+      formType.checked = false;
+
+    };
+
+    request.onerror = function(event) {
+      console.log('Ocurrió un error intentando agregar la nueva lista de tareas');
+    };
+  }
+  
+  //Redirección a pagina de listado? Pop-up de confirmación?
 
 }

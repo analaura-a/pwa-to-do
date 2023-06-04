@@ -109,7 +109,6 @@ function addingJSONTaskLists(data){
       let request = objectStore.add(taskListJSON);
   
       request.onsuccess = function(event) {
-        // Éxito
         console.log('Se agregaron con éxito las listas de tareas en el JSON a la base de datos');
       };
     
@@ -122,13 +121,13 @@ function addingJSONTaskLists(data){
 
     // Transacción completada
     transaction.oncomplete = () => {
-      console.log('Transaction completada con éxito');
+      console.log('Transaction [addingJSONTaskLists] completada con éxito');
 
     };
 
     // Transacción con error
     transaction.onerror = (e) => {
-      console.log('Ocurrió un problema al realizar la transaction', e);
+      console.log('Ocurrió un problema al realizar la transaction [addingJSONTaskLists]', e);
     };
 
   } else {
