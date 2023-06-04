@@ -43,13 +43,29 @@ function addNewList(e) {
       formDescription.value = '';
       formType.checked = false;
 
+      //Redirigimos a la página del listado
+      location.assign("../html/list-page.html");
+
+      //Redirección a pagina de listado? Pop-up de confirmación?
     };
 
     request.onerror = function(event) {
-      console.log('Ocurrió un error intentando agregar la nueva lista de tareas');
+      console.log('Ocurrió un error intentando agregar la nueva lista de tareas', event);
     };
+
+    // Transacción completada
+    transaction.oncomplete = () => {
+
+      console.log('Transaction [addNewList] completada con éxito');
+
+      db.close();
+    };
+
+    // Transacción con error
+    transaction.onerror = (e) => {
+      console.log('Ocurrió un problema al realizar la transaction [addNewList]', e);
+    };
+
   }
   
-  //Redirección a pagina de listado? Pop-up de confirmación?
-
 }
