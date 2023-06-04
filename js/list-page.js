@@ -1,4 +1,4 @@
-/* Elementos HTML */
+/* Elementos HTML DOM */
 let body = document.getElementById("body");
 let navGoBack = document.getElementById("back-to-lists");
 let mainTitle = document.getElementById("main-title");
@@ -66,11 +66,7 @@ DBOpenRequest.onsuccess = function(event) {
   
   db = event.target.result;
   
-  // Almacenamos en localStorage que la base de datos se inicializó
-  localStorage.setItem('dbInitialized', true);
-
-
-  // Agregamos las listas de tareas existentes en el JSON a indexedDB
+  // Agregamos las listas de tareas existentes en el JSON a nuestra base de datos indexedDB
   fetchTaskLists()
   .then((data) => {
 
@@ -86,14 +82,17 @@ DBOpenRequest.onsuccess = function(event) {
 
   .catch((json) => console.log(json));
 
+  
+  // Almacenamos en localStorage que la base de datos se inicializó (y ya agregamos lo del JSON)
+  localStorage.setItem('dbInitialized', true);
+
+
 };
 
 
 function addingJSONTaskLists(data){
 
-  // const DBOpenRequest = indexedDB.open('toDoApp', 1);
-
-  // Verificamos si la base de datos ya se ha inicializado, para no agregar las listas del JSON otra vez
+  // Verificamos si la base de datos ya se ha inicializado, para no repetirlas
   if (!dbInitialized) {
 
     // Realizamos la transacción para agregar las listas que traemos con fetch a indexedDB
@@ -111,28 +110,27 @@ function addingJSONTaskLists(data){
   
       request.onsuccess = function(event) {
         // Éxito
-        //Función para renderizar las tareas
+        console.log('Se agregaron con éxito las listas de tareas en el JSON a la base de datos');
       };
     
       request.onerror = function(event) {
-      // Manejo de errores
-      //Mostrar bloque que diga que hubo un problema con la conexión a la base de datos
+        console.log('Ocurrió un error intentando agregar las listas de tareas en el JSON a la base de datos');
       };
       
     });
 
 
-    // Report on the success of the transaction completing, when everything is done
+    // Transacción completada
     transaction.oncomplete = () => {
       console.log('Transaction completada con éxito');
 
     };
 
-    // Handler for any unexpected error
+    // Transacción con error
     transaction.onerror = (e) => {
       console.log('Ocurrió un problema al realizar la transaction', e);
     };
-    
+
   } else {
     return;
   }
