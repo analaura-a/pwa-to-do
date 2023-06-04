@@ -138,22 +138,23 @@ let crearTasklistsContainer = function () {
 
 /* Función para crear el botón "Agregar nueva lista de tareas" */
 let crearButtonNewList = function () {
-  let button = document.createElement("button");
-  button.classList.add("add-list");
-  button.setAttribute("id", "add-list");
-  button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewbox="0 0 48 48">
+  let ancla = document.createElement("a");
+  ancla.classList.add("add-list");
+  ancla.setAttribute("href", "add-to-do-list.html");
+  ancla.setAttribute("id", "add-list");
+  ancla.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewbox="0 0 48 48">
         <path fill="#949BA3"
             d="M38 22H26V10a2 2 0 1 0-4 0v12H10a2 2 0 1 0 0 4h12v12a2 2 0 0 0 4 0V26h12a2 2 0 0 0 0-4Z" />
   </svg>
   <p>Agregar una nueva lista</p>`;
 
   /* Evento para mostrar el formulario */
-  button.addEventListener("click", function () {
+  ancla.addEventListener("click", function () {
     modalAddNewList.style.display = "grid";
     body.style.overflowY = "hidden";
   });
 
-  return button;
+  return ancla;
 };
 
 /* Eventos para esconder el formulario */
