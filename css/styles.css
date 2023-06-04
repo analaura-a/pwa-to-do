@@ -264,6 +264,10 @@ a {
     padding: 1.875rem 0 0 0;
 }
 
+.navbar-back{
+    padding: 2.2rem 0 0 0;
+}
+
 .nav-links {
     font-size: clamp(1rem, 1vw + 0.9rem, 1.3rem);
     font-weight: var(--font-weight-black);
@@ -282,6 +286,14 @@ a {
 
 .nav-link-todo:hover .arrow-svg-right {
     transform: translateX(6px);
+}
+
+.arrow-svg-left{
+    transition: transform linear 240ms;
+}
+
+.nav-link-todo:hover .arrow-svg-left{
+    transform: translateX(-6px);
 }
 
 .site-logo {
@@ -551,17 +563,17 @@ footer {
 
 /* Ventana modal (agregar lista de tarea) */
 .bg-modal {
-    display: none;
+    display: grid;
     place-items: center;
-    position: fixed;
+    /* position: fixed;
     z-index: 101;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: var(--color-background-modal);
-    backdrop-filter: blur(10px);
+    background-color: var(--color-background-modal); */
+    /* backdrop-filter: blur(10px); */
 }
 
 .modal {
@@ -584,7 +596,7 @@ footer {
 
 }
 
-.close-modal {
+/* .close-modal {
     background-color: var(--color-gray-200);
     padding: 8px;
     border-radius: 16px;
@@ -605,14 +617,14 @@ footer {
 
 .close-modal:hover .close-modal-path {
     fill: var(--color-primary);
-}
+} */
 
 @media screen and (min-width: 650px) {
     .modal {
         height: auto;
         max-width: 600px;
         margin: 30px 0;
-        padding: 100px 90px 60px 90px;
+        padding: 80px 90px 60px 90px;
         border-radius: 24px;
     }
 
@@ -620,10 +632,10 @@ footer {
         padding: 0 50px 0 50px;
     }
 
-    .close-modal {
+    /* .close-modal {
         top: 34px;
         right: 34px;
-    }
+    } */
 }
 
 /* Form (agregar lista de tarea) */

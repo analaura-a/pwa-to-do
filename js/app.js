@@ -207,6 +207,8 @@ function addNewList(e) {
 
   renderTaskLists();
 
+  console.log(arrayTaskLists)
+
 }
 
 
