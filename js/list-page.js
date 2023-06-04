@@ -69,33 +69,26 @@ DBOpenRequest.onsuccess = function(event) {
   // Agregamos las listas de tareas existentes en el JSON a nuestra base de datos indexedDB
   fetchTaskLists()
   .then((data) => {
-
-    data.forEach((taskList) => {
-        arrayTaskLists.push(taskList);
-    })
-
-    addingJSONTaskLists(data)
-
-    //Borrar:
-    renderTaskLists();
+    addingJSONTaskLists(data);
   })
-
   .catch((json) => console.log(json));
 
-  
-  // Almacenamos en localStorage que la base de datos se inicializó (y ya agregamos lo del JSON)
+  // Almacenamos en localStorage que la base de datos se inicializó
   localStorage.setItem('dbInitialized', true);
 
+  // Renderizamos las listas de tareas
+  renderTaskLists();
 
 };
 
 
+/* Función para agregar las listas de tareas en el JSON a nuestra base de datos */
 function addingJSONTaskLists(data){
 
-  // Verificamos si la base de datos ya se ha inicializado, para no repetirlas
+  // Verificamos si la base de datos ya se ha inicializado, para no repetir las listas
   if (!dbInitialized) {
 
-    // Realizamos la transacción para agregar las listas que traemos con fetch a indexedDB
+    // Realizamos la transacción para agregar las listas del JSON a indexedDB
     const transaction = db.transaction(['toDoLists'], 'readwrite');
     let objectStore = transaction.objectStore('toDoLists');
 
@@ -123,6 +116,7 @@ function addingJSONTaskLists(data){
     transaction.oncomplete = () => {
       console.log('Transaction [addingJSONTaskLists] completada con éxito');
 
+      renderTaskLists();
     };
 
     // Transacción con error
@@ -140,7 +134,7 @@ function addingJSONTaskLists(data){
 
 
 
-/* Mostrar el listado (Listas de tareas) */
+/* Función para renderizar el listado (Listas de tareas) */
 function renderTaskLists() {
 
   vaciarContainer();
@@ -149,18 +143,19 @@ function renderTaskLists() {
   let divTasklistsContainer = crearTasklistsContainer();
   appContentContainer.appendChild(divTasklistsContainer);
 
-  //Creamos una card por cada lista de tareas
-  arrayTaskLists.forEach((taskList) => {
+  //Iniciamos la transacción de lectura de la base de datos
+  const transaction = db.transaction(['toDoLists'], 'readonly');
+  let objectStore = transaction.objectStore('toDoLists');
 
-    let tasks = taskList.tasks;
-    let doneTasks = [];
+  let request = objectStore.getAll();
 
-    tasks.forEach((task) => {
-      if (task.done_status === true){
-        doneTasks.push(task);
-      }});
+  request.onsuccess = function(event) {
+    let array = event.target.result;
 
-    let cardList = `<button class="list" id="${taskList.id}">
+    array.forEach((taskList) => {
+
+      //Creamos una card por cada lista en la base de datos
+      let cardList = `<a class="list" href="detail-page.html" id="${taskList.id}">
                           <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewbox="0 0 48 48"
                               class="delete-list" id="delete-list-${taskList.id}">
                               <path fill="#949BA3"
@@ -175,33 +170,52 @@ function renderTaskLists() {
                               <p class="paragraph text-light list-description">${taskList.description}
                               </p>
                           </div>
-                          <p class="list-task-count bold-paragraph text-dark">${doneTasks.length}/${tasks.length}</p>
-                      </button>`;
+                          <p class="list-task-count bold-paragraph text-dark">1/2</p>
+                      </a>`;
 
-    divTasklistsContainer.innerHTML += cardList;
-  });
+      //Las agregamos al contenedor
+      divTasklistsContainer.innerHTML += cardList;
 
-  //Evento para eliminar una lista de tareas
-  arrayTaskLists.forEach((taskList) => {
-
-    deleteTaskListButton = document.getElementById(`delete-list-${taskList.id}`);
-    deleteTaskListButton.addEventListener("click", function (e) {
-    
-      //Identificamos la lista
-      let idBoton = e.currentTarget.id;
-      let index = arrayTaskLists.findIndex((taskList) => `delete-list-${taskList.id}` === idBoton);
-
-      //La eliminamos del array
-      arrayTaskLists.splice(index, 1);
-
-      renderTaskLists();
+      deleteTaskListButton = document.getElementById(`delete-list-${taskList.id}`);
+      deleteTaskListButton.addEventListener("click", function () {
+        console.log(deleteTaskListButton)
+      })
 
     });
-  });
 
-  //Creamos y agregamos el botón "Agregar una nueva lista de tareas"
-  let buttonNewList = crearButtonNewList();
-  divTasklistsContainer.appendChild(buttonNewList);
+
+
+  };
+
+  request.onerror = function(event) {
+    console.log('Ocurrió un error intentando mostrar las listas de tareas', event);
+    crearButtonNewList(divTasklistsContainer);
+  };
+ 
+  transaction.oncomplete = () => {
+    //Creamos y agregamos el botón "Agregar una nueva lista de tareas"
+    console.log('Transaction [renderTaskLists] completada con éxito');
+    crearButtonNewList(divTasklistsContainer);
+  };
+
+   //Evento para eliminar una lista de tareas
+  // arrayTaskLists.forEach((taskList) => {
+
+  //   deleteTaskListButton = document.getElementById(`delete-list-${taskList.id}`);
+  //   deleteTaskListButton.addEventListener("click", function (e) {
+    
+  //     //Identificamos la lista
+  //     let idBoton = e.currentTarget.id;
+  //     let index = arrayTaskLists.findIndex((taskList) => `delete-list-${taskList.id}` === idBoton);
+
+  //     //La eliminamos del array
+  //     arrayTaskLists.splice(index, 1);
+
+  //     renderTaskLists();
+
+  //   });
+  // });
+
 }
 
 
@@ -218,7 +232,7 @@ let crearTasklistsContainer = function () {
 };
 
 /* Función para crear el botón "Agregar nueva lista de tareas" */
-let crearButtonNewList = function () {
+let crearButtonNewList = function (container) {
   let ancla = document.createElement("a");
   ancla.classList.add("add-list");
   ancla.setAttribute("href", "add-to-do-list.html");
@@ -229,6 +243,6 @@ let crearButtonNewList = function () {
   </svg>
   <p>Agregar una nueva lista</p>`;
 
-  return ancla;
+  container.appendChild(ancla);
 };
 
