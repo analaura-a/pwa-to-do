@@ -4,10 +4,99 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>To-do — Mis tareas</title>
+    <link rel="icon" href="../imgs/svg/logo-to-do.svg" />
+
+    <!--Fonts-->
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap" rel="stylesheet">
+
+    <!--Custom CSS-->
+    <link rel="stylesheet" href="../css/styles.css">
+
+    <!--Manifest-->
+    <link rel="manifest" href="../manifest.json">
+
 </head>
 <body>
+
+    <header>
+        <nav class="navbar container">
+            <div class="site-logo">
+                <a href="../index.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewbox="0 0 48 48" class="logo-svg">
+                        <path class="svg-white"
+                            d="M4 24c0-5.586 0-8.379.786-10.624a14 14 0 0 1 8.59-8.59C15.621 4 18.414 4 24 4s8.379 0 10.624.786a14 14 0 0 1 8.59 8.59C44 15.621 44 18.414 44 24s0 8.379-.786 10.624a14 14 0 0 1-8.59 8.59C32.379 44 29.586 44 24 44s-8.379 0-10.624-.786a14 14 0 0 1-8.59-8.59C4 32.379 4 29.586 4 24Z" />
+                        <path class="svg-primary-light"
+                            d="M4.101 17.813C4 19.497 4 21.605 4 24.425c0 5.586 0 8.379.786 10.624a14 14 0 0 0 8.59 8.59c2.245.786 5.038.786 10.624.786s8.379 0 10.624-.785a14 14 0 0 0 8.59-8.591C44 32.805 44 30.012 44 24.426c0-1.888 0-3.457-.03-4.794a5.998 5.998 0 0 0-1.271-1.07c-1.22-.766-2.894-.916-6.24-1.217l-23.107-2.074c-3.347-.3-5.02-.45-6.357.086A6 6 0 0 0 4.1 17.813Z" />
+                        <path class="svg-primary"
+                            d="M43.97 25.283c-.004 4.744-.062 7.275-.785 9.34a14 14 0 0 1-8.59 8.591C32.35 44 29.557 44 23.97 44s-8.379 0-10.624-.786a14 14 0 0 1-8.59-8.59c-.321-.916-.51-1.923-.623-3.174a6 6 0 0 1 2.199-2.765c1.189-.813 2.855-1.03 6.187-1.461l23.071-2.99c3.333-.432 4.999-.648 6.356-.165.752.269 1.44.683 2.023 1.214Z" />
+                        <path class="svg-white"
+                            d="m29.087 36.657-2.071-1.932a.618.618 0 0 0-.42-.162.618.618 0 0 0-.422.162.523.523 0 0 0 0 .785l2.495 2.327a.625.625 0 0 0 .842 0l6.315-5.89a.537.537 0 0 0 .174-.392.537.537 0 0 0-.174-.392.618.618 0 0 0-.421-.163.618.618 0 0 0-.42.163l-5.898 5.494Z" />
+                    </svg>
+                </a>
+                <a href="../index.html" class="nav-links text-primary">To-do</a>
+            </div>
+
+            <div class="nav-link-todo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewbox="0 0 48 48" class="arrow-svg-left">
+                    <path stroke="#6876F4" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" d="M22.923 36.5 10 24l12.923-12.5M11.795 24H38"/>
+                </svg>
+                <a href="list-page.html" class="nav-links text-title" id="back-to-lists">Volver a mis listas</a>
+            </div>
+        </nav>
+    </header>
     
+    <main>
+        <section class="container margin-auto app-page">
+            <div class="title-page title-margin">
+                <span class="list-type regular-size-text title-margin-bottom" id="list-type">Personal</span>
+                <h1 class="h1 title-margin-bottom line-height-title" id="main-title">Mis tareas pendientes</h1>
+                <p class="subtitle" id="main-subtitle">Esta es una descripción de la lista, por ejemplo, acá voy a poner mis tareas pendientes</p>
+            </div>
+
+            <div class="main-content" id="dinamic-content">
+                <form action="#" id="addTaskForm">
+                    <input type="text" id="newTask" name="newTask" placeholder="Agregar una nueva tarea..." required>
+                    <button type="submit">Agregar tarea</button>
+                </form>
+                    
+                <div class="filters-container">
+                    <div class="filters">
+                        <p class="bold-paragraph text-title">Filtrar por:</p>
+                        <button type="button" class="filter-button filter-selected">Estado</button>
+                    </div>
+                    <p>3 tareas en total</p>
+                </div>
+                    
+                <div class="tasks-container" id="tasks-container">
+                    <div class="column-tasks">
+                        <div class="tasks-info">
+                            <h2 class="h3">Pendientes</h2>
+                            <span class="task-counter">3</span>
+                        </div>
+                            
+                        <div class="tasks" id="tasksPending">
+                            <!--Tareas pendientes-->
+                        </div>
+                    </div>
+
+                    <div class="column-tasks">
+                        <div class="tasks-info">
+                            <h2 class="h3">Completadas</h2>
+                            <span class="task-counter">2</span>
+                        </div>
+                            
+                        <div class="tasks" id="tasksDone">
+                            <!--Tareas completadas-->
+                        </div>
+                    </div>
+                </div>
+
+                
+            </div>
+        </section>
+    </main>
+
     <footer class="container">
 
         <div class="footer-credits">
