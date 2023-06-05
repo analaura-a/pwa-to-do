@@ -1,4 +1,44 @@
+/* Elementos HTML DOM */
+let mainTitle = document.getElementById("main-title");
+let mainSubtitle = document.getElementById("main-subtitle");
+let listType = document.getElementById("list-type");
 
+
+/* Obtenemos el índice a través de localStorage */
+let tasklistIndex = JSON.parse(localStorage.getItem('tasklist'));
+
+/* Función para renderizar la página de detalle dinámicamente*/
+function renderTasks(){
+
+    let db;
+    const DBOpenRequest = indexedDB.open('toDoApp', 1);
+
+    DBOpenRequest.onsuccess = function(event) {
+    db = event.target.result;
+
+    //Iniciamos la transacción de lectura de la base de datos
+    const transaction = db.transaction(['toDoLists'], 'readonly');
+    let objectStore = transaction.objectStore('toDoLists');
+
+    let request = objectStore.get(tasklistIndex);
+
+    request.onsuccess = function(event) {
+
+        let selectedTaskList = event.target.result;
+        console.log(selectedTaskList)
+
+        // Cambiamos el contenido del título de la página
+        mainTitle.textContent = selectedTaskList.name;
+        mainSubtitle.textContent = selectedTaskList.description;
+        listType.textContent = selectedTaskList.type;
+
+    }
+
+  }
+    
+}
+
+renderTasks();
 
 /* Ver las tareas (Página de detalle) */
 // function renderTasks(e){
@@ -18,28 +58,6 @@
 //   mainSubtitle.textContent = selectedTaskList.description;
 //   listType.textContent = selectedTaskList.type;
 
-//   // Agregamos contenido propio de la página de detalle
-//   function detailContent(){
-//     appContentContainer.innerHTML = '';
-
-//     appContentContainer.innerHTML += 
-//     `<form action="#" id="addTaskForm">
-//       <input type="text" id="newTask" name="newTask" placeholder="Agregar una nueva tarea..." required>
-//       <button type="submit">Agregar tarea</button>
-//     </form>
-
-//     <div class="filters-container">
-//       <div class="filters">
-//           <p class="bold-paragraph text-title">Filtrar por:</p>
-//           <button type="button" class="filter-button filter-selected">Estado</button>
-//       </div>
-//       <p>${tasks.length} tareas en total</p>
-//     </div>
-
-//     <div class="tasks-container" id="tasks-container"></div>`
-//   }
-//   detailContent();
-
 //   /* Ver las tareas (por estado) */
 //   function showByStatus(){
 
@@ -57,29 +75,7 @@
 //       }
 //     });
 
-//     //Seleccionamos los elementos necesarios para mostrar las tareas
-//     let tasksContainer = document.getElementById('tasks-container');
-//     tasksContainer.innerHTML = '';
-
-//     let columnTasksPending = document.createElement('div');
-//     columnTasksPending.classList.add("column-tasks");
-//     let columnTasksDone = document.createElement('div');
-//     columnTasksDone.classList.add("column-tasks");
-
-//     tasksContainer.appendChild(columnTasksPending);
-//     tasksContainer.appendChild(columnTasksDone);
-
 //     //Columna "Tareas pendientes"
-//     columnTasksPending.innerHTML += 
-//     `
-//     <div class="tasks-info">
-//       <h2 class="h3">Pendientes</h2>
-//       <span class="task-counter">${pendingTasks.length}</span>
-//     </div>
-
-//     <div class="tasks" id="tasksPending"></div>
-//     `;
-
 //     let pendingTasksContainer = document.getElementById('tasksPending');
 
 //     if(pendingTasks.length === 0){
@@ -105,16 +101,6 @@
 //     }
 
 //     //Columna "Tareas completadas"
-//     columnTasksDone.innerHTML += 
-//     `
-//     <div class="tasks-info">
-//       <h2 class="h3">Completadas</h2>
-//       <span class="task-counter">${doneTasks.length}</span>
-//     </div>
-
-//     <div class="tasks" id="tasksDone"></div>
-//     `;
-
 //     let doneTasksContainer = document.getElementById('tasksDone');
 
 //     if(doneTasks.length === 0){

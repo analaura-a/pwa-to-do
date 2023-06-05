@@ -9,10 +9,6 @@ let deleteTaskListButton;
 let taskListPage;
 
 
-/* ARRAY Listas de tareas */
-let arrayTaskLists = [];
-
-
 /* FETCH */
 async function fetchTaskLists() {
   try {
@@ -192,6 +188,7 @@ function renderTaskLists() {
         if(e.target.tagName == "svg"){
           return;
         } else {
+          localStorage.setItem('tasklist', `${taskList.id}`);
           location.assign("detail-page.html");
         }
       });
