@@ -14,13 +14,11 @@ function addNewList(e) {
   let formDescription = formAddNewList.description;
   let formType = document.querySelector('input[name="type"]:checked');
 
-
   //Creamos un objeto con los datos ingresados
   let newList = {
     name: formName.value,
     description: formDescription.value,
-    type: formType.value,
-    tasks: [],
+    type: formType.value
   };
 
   //Agregamos el objeto a nuestra base de datos indexedDB

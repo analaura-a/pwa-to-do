@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Mis tareas pendientes",
+        "description": "Esta es una descripción de la lista, por ejemplo, acá voy a poner mis tareas pendientes",
+        "type": "Personal"
+    },
+    {
+        "name": "Películas para ver algún día",
+        "description": "Películas que me gustaría ver en algún momento",
+        "type": "Ocio"
+    }
+]

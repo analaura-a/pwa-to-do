@@ -4,7 +4,7 @@ let mainSubtitle = document.getElementById("main-subtitle");
 let listType = document.getElementById("list-type");
 
 
-/* Obtenemos el índice a través de localStorage */
+/* Obtenemos el índice de la lista a través de localStorage */
 let tasklistIndex = JSON.parse(localStorage.getItem('tasklist'));
 
 /* Función para renderizar la página de detalle dinámicamente*/

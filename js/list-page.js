@@ -12,70 +12,92 @@ let taskListPage;
 /* FETCH */
 async function fetchTaskLists() {
   try {
-    let response = await fetch("../tasks.json");
+    let response = await fetch("../json/taskslists.json");
     let taskLists = await response.json();
     return taskLists;
   } catch (error) {
-    console.log('Hubo un error al intentar obtener el JSON');
+    console.log('Hubo un error al intentar obtener el JSON de las listas');
+  }
+}
+
+async function fetchTasks(){
+  try {
+    let response = await fetch("../json/tasks.json");
+    let tasks = await response.json();
+    return tasks;
+  } catch (error) {
+    console.log('Hubo un error al intentar obtener el JSON de las tareas');
   }
 }
 
 
-/* indexedDB*/
+/* indexedDB */
 let db;
-const DBOpenRequest = indexedDB.open('toDoApp', 1);
-
-// Verificar si la base de datos ya se ha inicializado previamente
 let dbInitialized = localStorage.getItem('dbInitialized');
 
+function createDatabase(){
+
+  const DBOpenRequest = indexedDB.open('toDoApp', 1);
 
 
-/* Error al conectar con la base de datos */
-DBOpenRequest.onerror = function(event) {
- 
-  console.log('Algo salió mal en la conexión con la base de datos', event);
-
-};
-
-
-
-/* Creación o actualización de la base de datos */
-DBOpenRequest.onupgradeneeded = function(event) {
-
-  db = event.target.result;
-
-  // Creamos un objectStore para la base de datos
-  const objectStore = db.createObjectStore('toDoLists', {keyPath: 'id', autoIncrement: true});
-
-  // Agregamos los índices necesarios
-  objectStore.createIndex('type_index', 'type', {unique: false});
-  // objectStore.createIndex('tasks_index', 'tasks', {multiEntry: true, unique: true});
+  /* Error al conectar con la base de datos */
+  DBOpenRequest.onerror = function(event) {
   
-};
+    console.log('Algo salió mal en la conexión con la base de datos', event);
+
+  };
 
 
+  /* Creación o actualización de la base de datos */
+  DBOpenRequest.onupgradeneeded = function(event) {
 
-/* Conexión exitosa con la base de datos */
-DBOpenRequest.onsuccess = function(event) {
+    db = event.target.result;
 
-  console.log('Conexión exitosa con la base de datos');
-  
-  db = event.target.result;
-  
-  // Agregamos las listas de tareas existentes en el JSON a nuestra base de datos indexedDB
-  fetchTaskLists()
-  .then((data) => {
-    addingJSONTaskLists(data);
-  })
-  .catch((json) => console.log(json));
+    // Creamos el objectStores para las listas de tareas
+    const objectStoreList = db.createObjectStore('toDoLists', {keyPath: 'id', autoIncrement: true});
+    objectStoreList.createIndex('type_index', 'type', {unique: false});
 
-  // Almacenamos en localStorage que la base de datos se inicializó
-  localStorage.setItem('dbInitialized', true);
+    // Creamos el objectStores para las tareas
+    const objectStoreTasks = db.createObjectStore('toDoTasks', {keyPath: 'id', autoIncrement: true});
+    objectStoreTasks.createIndex('list_index', 'list_id', {unique: false});
+    objectStoreTasks.createIndex('done_status_index', 'done_status', {unique: false});
+    
+  };
 
-  // Renderizamos las listas de tareas
-  renderTaskLists();
 
-};
+  /* Conexión exitosa con la base de datos */
+  DBOpenRequest.onsuccess = function(event) {
+
+    console.log('Conexión exitosa con la base de datos');
+    
+    db = event.target.result;
+    
+    // Agregamos las listas de tareas existentes en el JSON a nuestra base de datos indexedDB
+    fetchTaskLists()
+    .then((data) => {
+      addingJSONTaskLists(data);
+    })
+    .catch((json) => console.log(json));
+
+    // Agregamos las tareas existentes en el JSON a nuestra base de datos indexedDB
+    fetchTasks()
+    .then((data) => {
+      addingJSONTasks(data);
+    })
+    .catch((json) => console.log(json));
+
+    // Almacenamos en localStorage que la base de datos se inicializó
+    localStorage.setItem('dbInitialized', true);
+
+    // Renderizamos las listas de tareas
+    renderTaskLists();
+
+  };
+
+}
+
+createDatabase();
+
 
 
 /* Función para agregar las listas de tareas en el JSON a nuestra base de datos */
@@ -127,6 +149,37 @@ function addingJSONTaskLists(data){
 }
 
 
+/* Función para agregar las tareas del JSON a nuestra base de datos */
+function addingJSONTasks(data){
+  if (!dbInitialized) {
+
+    // Realizamos la transacción para agregar las listas del JSON a indexedDB
+    const transaction = db.transaction(['toDoTasks'], 'readwrite');
+    let objectStore = transaction.objectStore('toDoTasks');
+
+    data.forEach((task) => {
+      let taskJSON = {
+        "list_id": task.list_id,
+        "task_name": task.task_name,
+        "done_status": task.done_status
+      }
+
+      let request = objectStore.add(taskJSON);
+
+      request.onsuccess = function(event) {
+        console.log('Se agregaron con éxito las tareas en el JSON a la base de datos');
+      };
+    
+      request.onerror = function(event) {
+        console.log('Ocurrió un error intentando agregar las tareas en el JSON a la base de datos');
+      };
+      
+    });
+  } else {
+    return;
+  }
+
+}
 
 
 
@@ -188,7 +241,7 @@ function renderTaskLists() {
         if(e.target.tagName == "svg"){
           return;
         } else {
-          localStorage.setItem('tasklist', `${taskList.id}`);
+          localStorage.setItem('tasklist', taskList.id);
           location.assign("detail-page.html");
         }
       });
