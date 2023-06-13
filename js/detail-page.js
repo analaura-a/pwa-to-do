@@ -7,13 +7,15 @@ let listType = document.getElementById("list-type");
 /* Obtenemos el índice de la lista a través de localStorage */
 let tasklistIndex = JSON.parse(localStorage.getItem('tasklist'));
 
+
 /* Función para renderizar la página de detalle dinámicamente*/
 function renderTasks(){
 
-    let db;
-    const DBOpenRequest = indexedDB.open('toDoApp', 1);
+  //Conexión con la base de datos
+  let db;
+  const DBOpenRequest = indexedDB.open('toDoApp', 1);
 
-    DBOpenRequest.onsuccess = function(event) {
+  DBOpenRequest.onsuccess = function(event) {
     db = event.target.result;
 
     //Iniciamos la transacción de lectura de la base de datos
@@ -24,15 +26,20 @@ function renderTasks(){
 
     request.onsuccess = function(event) {
 
-        let selectedTaskList = event.target.result;
-        console.log(selectedTaskList)
+      let selectedTaskList = event.target.result;
+      console.log(selectedTaskList)
 
-        // Cambiamos el contenido del título de la página
-        mainTitle.textContent = selectedTaskList.name;
-        mainSubtitle.textContent = selectedTaskList.description;
-        listType.textContent = selectedTaskList.type;
+      // Cambiamos el contenido del título de la página
+      mainTitle.textContent = selectedTaskList.name;
+      mainSubtitle.textContent = selectedTaskList.description;
+      listType.textContent = selectedTaskList.type;
 
     }
+
+
+
+
+    
 
   }
     
