@@ -61,6 +61,7 @@ function createDatabase(){
     const objectStoreTasks = db.createObjectStore('toDoTasks', {keyPath: 'id', autoIncrement: true});
     objectStoreTasks.createIndex('list_index', 'list_id', {unique: false});
     objectStoreTasks.createIndex('done_status_index', 'done_status', {unique: false});
+    objectStoreTasks.createIndex('done_status_and_list', ['list_id', 'done_status'], {unique: false});
     
   };
 
@@ -210,13 +211,11 @@ function renderTaskLists() {
                               <h2 class="h3 list-title">${taskList.name}</h2>
                               <p class="paragraph text-light list-description">${taskList.description}</p>
                           </div>
-                          <p class="list-task-count bold-paragraph text-dark">1/2</p>
                       </a>`;
 
       //Las agregamos al contenedor
       divTasklistsContainer.innerHTML += cardList;
 
-      
     });
 
     array.forEach(taskList => {
@@ -228,9 +227,7 @@ function renderTaskLists() {
         localStorage.setItem('tasklist', taskList.id);
       });
       
-    })
-
-
+    });
 
   };
 
@@ -240,30 +237,14 @@ function renderTaskLists() {
   };
  
   transaction.oncomplete = () => {
-    //Creamos y agregamos el botón "Agregar una nueva lista de tareas"
     console.log('Transaction [renderTaskLists] completada con éxito');
+
+    //Creamos y agregamos el botón "Agregar una nueva lista de tareas"
     crearButtonNewList(divTasklistsContainer);
   };
 
-   //Evento para eliminar una lista de tareas
-  // arrayTaskLists.forEach((taskList) => {
-
-  //   deleteTaskListButton = document.getElementById(`delete-list-${taskList.id}`);
-  //   deleteTaskListButton.addEventListener("click", function (e) {
-    
-  //     //Identificamos la lista
-  //     let idBoton = e.currentTarget.id;
-  //     let index = arrayTaskLists.findIndex((taskList) => `delete-list-${taskList.id}` === idBoton);
-
-  //     //La eliminamos del array
-  //     arrayTaskLists.splice(index, 1);
-
-  //     renderTaskLists();
-
-  //   });
-  // });
-
 }
+
 
 
 /* Función para vaciar el contenedor */
@@ -292,4 +273,3 @@ let crearButtonNewList = function (container) {
 
   container.appendChild(ancla);
 };
-

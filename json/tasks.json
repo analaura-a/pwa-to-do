@@ -2,56 +2,56 @@
     {
         "list_id": 1,
         "task_name": "Lavar la ropa",
-        "done_status": false
+        "done_status": 0
     },
     {
         "list_id": 1,
         "task_name": "Pasear al perro",
-        "done_status": false
+        "done_status": 0
     },
     {
         "list_id": 1,
         "task_name": "Limpiar mi cuarto",
-        "done_status": false
+        "done_status": 0
     },
     {
         "list_id": 1,
         "task_name": "Regar mis plantas",
-        "done_status": false
+        "done_status": 0
     },
     {
         "list_id": 1,
         "task_name": "Llamar a mamá",
-        "done_status": true
+        "done_status": 1
     },
     {
         "list_id": 1,
         "task_name": "Comprar leche",
-        "done_status": true
+        "done_status": 1
     },
     {
         "list_id": 1,
         "task_name": "Arreglar agujero en la cocina que gotea",
-        "done_status": true
+        "done_status": 1
     },
     {
         "list_id": 2,
         "task_name": "Mi Vecino Totoro",
-        "done_status": false
+        "done_status": 0
     },
     {
         "list_id": 2,
         "task_name": "Clueless",
-        "done_status": true
+        "done_status": 1
     },
     {
         "list_id": 2,
         "task_name": "Your Name",
-        "done_status": false
+        "done_status": 0
     },
     {
         "list_id": 2,
         "task_name": "La Sirenita",
-        "done_status": true
+        "done_status": 1
     }
 ]
