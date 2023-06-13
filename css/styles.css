@@ -641,7 +641,8 @@ footer {
 }
 
 /* Form (agregar lista de tarea) */
-#addListForm {
+#addListForm, 
+#editListForm {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -658,7 +659,10 @@ footer {
 
 #addListForm label,
 #addListForm textarea,
-#addListForm input:not(input[type=submit], input[type=radio]) {
+#addListForm input:not(input[type=submit], input[type=radio]),
+#editListForm label,
+#editListForm textarea,
+#editListForm input:not(input[type=submit], input[type=radio]){
     display: block;
     width: 100%;
 }
@@ -694,7 +698,8 @@ footer {
     color: var(--font-color-light);
 }
 
-#addListForm input[type=submit] {
+#addListForm input[type=submit], 
+#editListForm input[type=submit]{
     margin-top: 1.25rem;
     padding: 0.875rem 4.375rem;
 }
