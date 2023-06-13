@@ -153,7 +153,7 @@ function addingJSONTasks(data){
     let taskJSON = {
       "list_id": task.list_id,
       "task_name": task.task_name,
-      "done_status": task.done_status
+      "done_status": task.done_status,
     }
 
     let request = objectStore.add(taskJSON);

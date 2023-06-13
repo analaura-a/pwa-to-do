@@ -104,6 +104,7 @@ function renderTaskCounters(){
 
   //Obtenemos las tareas de la lista a través de su índice
   let listIndex = objectStore.index("list_index");
+  // let statusIndex = objectStore.index("done_status_index");
 
   let countRequest = listIndex.count(tasklistIndex);
   
@@ -115,16 +116,33 @@ function renderTaskCounters(){
   }
 
 
-  let tasksRequest = listIndex.getAll(tasklistIndex);
+  // let tasksRequest = listIndex.getAll(tasklistIndex);
+
+  // tasksRequest.onsuccess = function(e) {
+
+  //   console.log(e.target.result);
+  //   let tasks = e.target.result;
+
+  //   tasks.forEach(task => {
+      
+  //   });
+
+  // }
+
+  
+ let tasksRequest = listIndex.getAll(tasklistIndex);
 
   tasksRequest.onsuccess = function(e) {
 
     console.log(e.target.result);
-    let tasks = e.target.result;
 
-
+  
+    // let pendingTasksRequest = statusIndex.getAll(true).onsuccess = function(e){
+    //   console.log(e.target.result)
+    // };
+    
+    
   }
-
 
 
 }
