@@ -7,7 +7,6 @@ let formType = document.querySelectorAll('input[name="type"]');
 
 /* Obtenemos el índice de la lista a través de localStorage */
 let tasklistIndex = JSON.parse(localStorage.getItem('tasklist'));
-console.log(tasklistIndex);
 
 
 /* Base de datos */
@@ -53,9 +52,6 @@ function createDatabase(){
 createDatabase();
 
 
-
-
-
 /* Función para obtener y mostrar los datos de la lista actual */
 function getListData(){
 
@@ -67,7 +63,6 @@ function getListData(){
     request.onsuccess = function(event) {
 
         let selectedTaskList = event.target.result;
-        console.log(selectedTaskList);
 
         // Mostramos los datos existentes en el form
         formName.value = selectedTaskList.name;
@@ -81,13 +76,13 @@ function getListData(){
     }
 
     request.onerror = function(event) {
-        console.log('Ocurrió un error intentando editar la lista de tareas', event);
+        console.log('Ocurrió un error intentando obtener los datos de la lista de tareas', event);
     };
 
 }
 
 
-/* Editar lista de tareas */
+/* Función para aplicar los cambios a la lista de tareas */
 formEditList.addEventListener("submit", editList);
 
 function editList(e) {
@@ -107,6 +102,7 @@ function editList(e) {
     let getRequest = objectStore.get(tasklistIndex);
 
     getRequest.onsuccess = function(event) {
+        
         let taskList = event.target.result;
 
         //Actualizamos los datos

@@ -53,12 +53,10 @@ function createDatabase(){
 createDatabase();
 
 
-
-/* Función para renderizar la página de detalle dinámicamente*/
+/* Función para renderizar los datos de la lista en la página de detalle */
 function renderTasklist(){
 
-  //Iniciamos la transacción de lectura de la base de datos
-  console.log(db)
+  //Iniciamos la transacción
   const transaction = db.transaction(['toDoLists'], 'readonly');
   let objectStore = transaction.objectStore('toDoLists');
 
@@ -68,7 +66,6 @@ function renderTasklist(){
   request.onsuccess = function(event) {
 
     let selectedTaskList = event.target.result;
-    console.log(selectedTaskList)
 
     // Los mostramos
     mainTitle.textContent = selectedTaskList.name;
@@ -96,36 +93,95 @@ function renderTasklist(){
 
 
 
-/* Función para eliminar una lista de tareas */
+/* Función para eliminar la lista de tareas */
 deleteButton.addEventListener("click", deleteTasklist);
 
 function deleteTasklist(){
-  console.log('ola');
 
+  //Transacción: borrar lista de tareas
   const transaction = db.transaction(['toDoLists'], 'readwrite');
   let objectStore = transaction.objectStore('toDoLists');
 
   let request = objectStore.delete(tasklistIndex);
 
   request.onsuccess = ()=> {
+
     console.log(`Lista borrada con éxito`);
+
+    //Transacción: borrar tareas asociadas a la lista
+    const transactionTasks = db.transaction(['toDoTasks'], 'readwrite');
+    let objectStoretasks = transactionTasks.objectStore('toDoTasks');
+    let listIndex = objectStoretasks.index("list_index");
+
+    let requestTasks = listIndex.getAll(tasklistIndex);
+    
+    requestTasks.onsuccess = function(e) {
+
+      let tasks = e.target.result;
+
+      tasks.forEach(task => { 
+        
+        let requestDeleteTasks = objectStoretasks.delete(task.id);
+
+        requestDeleteTasks.onsuccess = function() {
+          console.log("La tarea se borró con éxito");
+        }
+
+        requestDeleteTasks.onerror = (e)=> {
+          console.error("Ocurrió un error al intentar borrar las tareas", e);
+        }
+
+      });
+
+    }
+
+    requestTasks.onerror = (e)=> {
+      console.error("Ocurrió un error al intentar obtener las tareas", e)
+    }
+
+    transaction.oncomplete = () => {
+      console.log('Transaction [deleteTasks] completada con éxito');
+      location.assign('list-page.html');
+    };
+  
+    transaction.onerror = (e) => {
+      console.error('Ocurrió un problema al realizar la transaction [deleteTasks]', e);
+    };
+
   }
 
   request.onerror = (e)=> {
     console.error("Ocurrió un error al intentar borrar la lista", e)
   }
 
-  // Transacción completada
   transaction.oncomplete = () => {
-    location.assign('list-page.html');
+    console.log('Transaction [deleteTasklist] completada con éxito');
   };
 
-  // Transacción con error
   transaction.onerror = (e) => {
     console.log('Ocurrió un problema al realizar la transaction [deleteTasklist]', e);
   };
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
