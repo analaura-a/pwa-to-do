@@ -2,50 +2,132 @@
 let mainTitle = document.getElementById("main-title");
 let mainSubtitle = document.getElementById("main-subtitle");
 let listType = document.getElementById("list-type");
+let deleteButton = document.getElementById('delete-list');
 
 
 /* Obtenemos el índice de la lista a través de localStorage */
 let tasklistIndex = JSON.parse(localStorage.getItem('tasklist'));
+console.log(tasklistIndex);
+
+
+/* Base de datos */
+let db;
+function createDatabase(){
+
+  const DBOpenRequest = indexedDB.open('toDoApp', 1);
+
+  /* Error al conectar con la base de datos */
+  DBOpenRequest.onerror = function(event) {
+  
+    console.log('Algo salió mal en la conexión con la base de datos', event);
+
+  };
+
+  /* Creación o actualización de la base de datos */
+  DBOpenRequest.onupgradeneeded = function(event) {
+
+    db = event.target.result;
+
+    // Creamos el objectStores para las listas de tareas
+    const objectStoreList = db.createObjectStore('toDoLists', {keyPath: 'id', autoIncrement: true});
+    objectStoreList.createIndex('type_index', 'type', {unique: false});
+
+    // Creamos el objectStores para las tareas
+    const objectStoreTasks = db.createObjectStore('toDoTasks', {keyPath: 'id', autoIncrement: true});
+    objectStoreTasks.createIndex('list_index', 'list_id', {unique: false});
+    objectStoreTasks.createIndex('done_status_index', 'done_status', {unique: false});
+    
+  };
+
+  /* Conexión exitosa con la base de datos */
+  DBOpenRequest.onsuccess = function(event) {
+
+    db = event.target.result;
+    
+    renderTasklist();
+
+  };
+
+}
+
+createDatabase();
+
 
 
 /* Función para renderizar la página de detalle dinámicamente*/
-function renderTasks(){
+function renderTasklist(){
 
-  //Conexión con la base de datos
-  let db;
-  const DBOpenRequest = indexedDB.open('toDoApp', 1);
+  //Iniciamos la transacción de lectura de la base de datos
+  console.log(db)
+  const transaction = db.transaction(['toDoLists'], 'readonly');
+  let objectStore = transaction.objectStore('toDoLists');
 
-  DBOpenRequest.onsuccess = function(event) {
-    db = event.target.result;
+  //Obtenemos los datos de la lista en particular
+  let request = objectStore.get(tasklistIndex);
 
-    //Iniciamos la transacción de lectura de la base de datos
-    const transaction = db.transaction(['toDoLists'], 'readonly');
-    let objectStore = transaction.objectStore('toDoLists');
+  request.onsuccess = function(event) {
 
-    let request = objectStore.get(tasklistIndex);
+    let selectedTaskList = event.target.result;
+    console.log(selectedTaskList)
 
-    request.onsuccess = function(event) {
-
-      let selectedTaskList = event.target.result;
-      console.log(selectedTaskList)
-
-      // Cambiamos el contenido del título de la página
-      mainTitle.textContent = selectedTaskList.name;
-      mainSubtitle.textContent = selectedTaskList.description;
-      listType.textContent = selectedTaskList.type;
-
-    }
-
-
-
-
-    
+    // Los mostramos
+    mainTitle.textContent = selectedTaskList.name;
+    mainSubtitle.textContent = selectedTaskList.description;
+    listType.textContent = selectedTaskList.type;
 
   }
+
+  request.onerror = function(event) {
+    console.log('Ocurrió un error intentando obtener los datos de esta lista de tareas', event);
+  }
+
+  // Transacción completada
+  transaction.oncomplete = () => {
+    console.log('Transaction [renderTasklist] completada con éxito');
+  };
+
+  // Transacción con error
+  transaction.onerror = (e) => {
+    console.log('Ocurrió un problema al realizar la transaction [renderTasklist]', e);
+  };
     
 }
 
-renderTasks();
+
+
+
+/* Función para eliminar una lista de tareas */
+deleteButton.addEventListener("click", deleteTasklist);
+
+function deleteTasklist(){
+  console.log('ola');
+
+  const transaction = db.transaction(['toDoLists'], 'readwrite');
+  let objectStore = transaction.objectStore('toDoLists');
+
+  let request = objectStore.delete(tasklistIndex);
+
+  request.onsuccess = ()=> {
+    console.log(`Lista borrada con éxito`);
+  }
+
+  request.onerror = (e)=> {
+    console.error("Ocurrió un error al intentar borrar la lista", e)
+  }
+
+  // Transacción completada
+  transaction.oncomplete = () => {
+    location.assign('list-page.html');
+  };
+
+  // Transacción con error
+  transaction.onerror = (e) => {
+    console.log('Ocurrió un problema al realizar la transaction [deleteTasklist]', e);
+  };
+
+}
+
+
 
 /* Ver las tareas (Página de detalle) */
 // function renderTasks(e){
