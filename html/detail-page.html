@@ -65,14 +65,14 @@
                         <a href="edit-to-do-list.html" type="button" class="filter-button" id="edit-list">Editar lista</a>
                         <button type="button" class="filter-button" id="delete-list">Borrar lista</button>
                     </div>
-                    <p>3 tareas en total</p>
+                    <p id="total-count">3 tareas en total</p>
                 </div>
                     
                 <div class="tasks-container" id="tasks-container">
                     <div class="column-tasks">
                         <div class="tasks-info">
                             <h2 class="h3">Pendientes</h2>
-                            <span class="task-counter">3</span>
+                            <span class="task-counter" id="pending-count">3</span>
                         </div>
                             
                         <div class="tasks" id="tasksPending">
@@ -83,7 +83,7 @@
                     <div class="column-tasks">
                         <div class="tasks-info">
                             <h2 class="h3">Completadas</h2>
-                            <span class="task-counter">2</span>
+                            <span class="task-counter" id="done-count">2</span>
                         </div>
                             
                         <div class="tasks" id="tasksDone">

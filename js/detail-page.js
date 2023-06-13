@@ -2,6 +2,9 @@
 let mainTitle = document.getElementById("main-title");
 let mainSubtitle = document.getElementById("main-subtitle");
 let listType = document.getElementById("list-type");
+let totalCount = document.getElementById("total-count");
+let pendingCount = document.getElementById("pending-count");
+let doneCount = document.getElementById("done-count");
 let deleteButton = document.getElementById('delete-list');
 
 
@@ -46,6 +49,8 @@ function createDatabase(){
     
     renderTasklist();
 
+    renderTaskCounters();
+
   };
 
 }
@@ -88,6 +93,40 @@ function renderTasklist(){
     console.log('Ocurrió un problema al realizar la transaction [renderTasklist]', e);
   };
     
+}
+
+
+/* Función para renderizar los contadores de las tareas: total, pendientes y completadas */
+function renderTaskCounters(){
+
+  const transaction = db.transaction(['toDoTasks'], 'readonly');
+  let objectStore = transaction.objectStore('toDoTasks');
+
+  //Obtenemos las tareas de la lista a través de su índice
+  let listIndex = objectStore.index("list_index");
+
+  let countRequest = listIndex.count(tasklistIndex);
+  
+  countRequest.onsuccess = function(e) {
+
+    let total = e.target.result;
+    totalCount.textContent = `${total} tareas en total`;
+  
+  }
+
+
+  let tasksRequest = listIndex.getAll(tasklistIndex);
+
+  tasksRequest.onsuccess = function(e) {
+
+    console.log(e.target.result);
+    let tasks = e.target.result;
+
+
+  }
+
+
+
 }
 
 
