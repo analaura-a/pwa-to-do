@@ -13,7 +13,6 @@ let deleteButton = document.getElementById('delete-list');
 
 /* Obtenemos el índice de la lista a través de localStorage */
 let tasklistIndex = JSON.parse(localStorage.getItem('tasklist'));
-console.log(tasklistIndex);
 
 
 /* Base de datos */
@@ -115,7 +114,6 @@ function renderTaskCounters(){
   countRequest.onsuccess = function(e) {
     let total = e.target.result;
     totalCount.textContent = `${total} tareas en total`;
-  
   }
 
   //Contamos las tareas pendientes
@@ -129,6 +127,14 @@ function renderTaskCounters(){
   donecountRequest.onsuccess = function(e) {
     doneCount.textContent = e.target.result;
   }
+
+  transaction.oncomplete = () => {
+    console.log('Transaction [renderTaskCounters] completada con éxito');
+  };
+
+  transaction.onerror = (e) => {
+    console.error('Ocurrió un problema al realizar la transaction [renderTaskCounters]', e);
+  };
 
 }
 
@@ -148,6 +154,7 @@ function renderTasks(){
 
   pendingTasksRequest.onsuccess = function(e) {
 
+    //Array que contiene las tareas pendientes de esta lista en particular
     let pendingTasks = e.target.result;
 
     if (pendingTasks.length === 0){
@@ -168,13 +175,17 @@ function renderTasks(){
           </svg>
         </div>`
   
-        pendingTasksContainer.innerHTML += taskItem
+        pendingTasksContainer.innerHTML += taskItem;
       });
     }
 
     pendingTasks.forEach((task) => {
       let svgDeleteTask = document.getElementById(`delete-${task.id}`)
       svgDeleteTask.addEventListener("click", deleteTask);
+
+      let inputCheckbox = document.getElementById(`${task.id}`);
+      inputCheckbox.addEventListener("click", changeStatus);
+      
     });
    
   }
@@ -184,6 +195,7 @@ function renderTasks(){
 
   doneTasksRequest.onsuccess = function(e) {
 
+    //Array que contiene las tareas completadas de esta lista en particular
     let doneTasks = e.target.result;
 
     if (doneTasks.length === 0){
@@ -211,9 +223,20 @@ function renderTasks(){
     doneTasks.forEach((task) => {
       let svgDeleteTask = document.getElementById(`delete-${task.id}`)
       svgDeleteTask.addEventListener("click", deleteTask);
+
+      let inputCheckbox = document.getElementById(`${task.id}`);
+      inputCheckbox.addEventListener("click", changeStatus);
     });
    
   }
+
+  transaction.oncomplete = () => {
+    console.log('Transaction [renderTasks] completada con éxito');
+  };
+
+  transaction.onerror = (e) => {
+    console.error('Ocurrió un problema al realizar la transaction [renderTasks]', e);
+  };
 
 }
 
@@ -258,18 +281,27 @@ function addNewtask(e){
     console.log('Ocurrió un error intentando agregar la nueva tarea', event);
   };
 
+  transaction.oncomplete = () => {
+    console.log('Transaction [addNewtask] completada con éxito');
+  };
+
+  transaction.onerror = (e) => {
+    console.error('Ocurrió un problema al realizar la transaction [addNewtask]', e);
+  };
+
 }
 
 
 /* Función para eliminar una tarea en particular */
 function deleteTask(e){
 
+  //Obtenemos el ID del botón al que hicimos click
   let idSVG = e.currentTarget.id;
-  console.log(idSVG);
 
+  //Dejamos solo el número para usarlo como índice
   let taskID = parseInt(idSVG.replace('delete-',''));
-  console.log(taskID);
 
+  //Eliminamos la tarea
   const transaction = db.transaction(['toDoTasks'], 'readwrite');
   let objectStore = transaction.objectStore('toDoTasks');
 
@@ -285,9 +317,73 @@ function deleteTask(e){
 
   }
 
+  request.onerror = function(event) {
+    console.log('Ocurrió un error intentando eliminar la tarea', event);
+  };
+
+  transaction.oncomplete = () => {
+    console.log('Transaction [deleteTask] completada con éxito');
+  };
+
+  transaction.onerror = (e) => {
+    console.error('Ocurrió un problema al realizar la transaction [deleteTask]', e);
+  };
+
 }
 
 
+/* Función para cambiar el estado de una tarea */
+function changeStatus(e){
+
+  //Obtenemos el índice del input al que hicimos click
+  let index = parseInt(e.currentTarget.id);
+
+  const transaction = db.transaction(['toDoTasks'], 'readwrite');
+  let objectStore = transaction.objectStore('toDoTasks');
+
+  //Lo usamos para obtener la tarea
+  let request = objectStore.get(index);
+
+  request.onsuccess = function(event) {
+    let task = event.target.result;
+    
+    //Cambiamos el estado de la tarea, dependiendo el estado actual
+    if(task.done_status === 0){
+      task.done_status = 1;
+    } else if(task.done_status === 1){
+      task.done_status = 0;
+    }
+
+    let updateRequest = objectStore.put(task);
+
+    updateRequest.onsuccess = function() {
+
+      console.log('Se cambió el estado de la tarea con éxito');
+
+      renderTaskCounters();
+      renderTasks();
+
+    }
+
+    updateRequest.onerror = function(event) {
+      console.log('Ocurrió un error intentando cambiar el estado de la tarea', event);
+    };
+
+  }
+
+  request.onerror = function(event) {
+    console.log('Ocurrió un error intentando obtener la tarea', event);
+  };
+
+  transaction.oncomplete = () => {
+    console.log('Transaction [changeStatus] completada con éxito');
+  };
+
+  transaction.onerror = (e) => {
+    console.error('Ocurrió un problema al realizar la transaction [changeStatus]', e);
+  };
+
+}
 
 
 /* Función para eliminar la lista de tareas */
@@ -360,114 +456,3 @@ function deleteTasklist(){
   };
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//     //Se le agrega a cada tarea la función de cambiar el estado
-//     let inputCheckbox = document.querySelectorAll(".task-checkbox");
-//     inputCheckbox.forEach((element) => {
-//       element.addEventListener("click", changeStatus);
-//     });
-
-//     //Se le agrega a cada tarea la función de eliminarse
-//     tasks.forEach((task) => {
-//       let svgDeleteTask = document.getElementById(`delete-${task.id}`)
-//       svgDeleteTask.addEventListener("click", deleteTask);
-//     })
-
-//     //Se agrega la función para crear una nueva tarea
-//     let addTaskForm = document.getElementById('addTaskForm');
-//     addTaskForm.addEventListener("submit", addTask);
-
-//   }
-
-//   showByStatus();
-
-//   //Función para cambiar el estado de las tareas
-//   function changeStatus(e){
-   
-//     //Identificamos la tarea
-//     let idCheckbox = e.currentTarget.id;
-//     let index = tasks.findIndex((task) => `${task.id}` === idCheckbox);
-
-//     //Identificamos su estado
-//     let taskStatus = tasks[index].done_status;
-  
-//     //Cambiamos su estado
-//     if (taskStatus === false){
-//       tasks[index].done_status = true;
-//     } 
-    
-//     if(taskStatus === true){
-//       tasks[index].done_status = false;
-//     }
-
-//     showByStatus();
-
-//   }
-
-//   //Función para eliminar una tarea
-//   function deleteTask(e){
-
-//     //Identificamos la tarea
-//     let idSVG = e.currentTarget.id;
-//     let index = tasks.findIndex((task) => `delete-${task.id}` === idSVG);
-
-//     //La eliminamos del array
-//     tasks.splice(index, 1);
-
-//     detailContent();
-//     showByStatus();
-
-//   }
-
-//   //Función para agregar una nueva tarea
-//   function addTask(e){
-
-//     e.preventDefault();
-
-//     //Obtenemos los valores enviados por el form
-//     let taskName = document.getElementById('newTask');
-
-//     //Generamos un ID único (?)
-//     let id = `task-${tasks.length + 100}`;
-
-//     //Creamos un objeto con los datos ingresados
-//     let newTask = {
-//       id: id,
-//       task_name: taskName.value,
-//       done_status: false
-//     }
-
-//     //Agregamos el objeto al array tasks
-//     tasks.push(newTask);
-
-//     //Reseteamos los inputs del form
-//     taskName.value = '';
-
-//     detailContent();
-//     showByStatus();
-
-//   }
-  
-// }

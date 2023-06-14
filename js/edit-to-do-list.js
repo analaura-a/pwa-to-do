@@ -35,6 +35,7 @@ function createDatabase(){
     const objectStoreTasks = db.createObjectStore('toDoTasks', {keyPath: 'id', autoIncrement: true});
     objectStoreTasks.createIndex('list_index', 'list_id', {unique: false});
     objectStoreTasks.createIndex('done_status_index', 'done_status', {unique: false});
+    objectStoreTasks.createIndex('done_status_and_list', ['list_id', 'done_status'], {unique: false});
     
   };
 

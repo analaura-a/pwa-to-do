@@ -43,13 +43,10 @@ function addNewList(e) {
 
       //Redirigimos a la página del listado
       location.assign("../html/list-page.html");
-
-      //Pop-up de confirmación?
     };
 
     request.onerror = function(event) {
       console.log('Ocurrió un error intentando agregar la nueva lista de tareas', event);
-      //Pop up de error?
     };
 
     // Transacción completada

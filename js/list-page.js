@@ -183,7 +183,6 @@ function addingJSONTasks(data){
 }
 
 
-
 /* Función para renderizar el listado (Listas de tareas) */
 function renderTaskLists() {
 
@@ -222,7 +221,6 @@ function renderTaskLists() {
 
       //Les agregamos un evento para obtener y setear su ID en localStorage al hacerles click
       taskListPage = document.getElementById(`${taskList.id}`);
-
       taskListPage.addEventListener("click", () => {
         localStorage.setItem('tasklist', taskList.id);
       });
@@ -233,7 +231,6 @@ function renderTaskLists() {
 
   request.onerror = function(event) {
     console.log('Ocurrió un error intentando mostrar las listas de tareas', event);
-    crearButtonNewList(divTasklistsContainer);
   };
  
   transaction.oncomplete = () => {
@@ -243,8 +240,11 @@ function renderTaskLists() {
     crearButtonNewList(divTasklistsContainer);
   };
 
-}
+  transaction.onerror = (e) => {
+    console.log('Ocurrió un problema al realizar la transaction [renderTaskLists]', e);
+  };
 
+}
 
 
 /* Función para vaciar el contenedor */
