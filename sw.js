@@ -1,6 +1,22 @@
 const cacheName = "v1";
 
-const cachedAssets = ["./", "./index.html", "./css/styles.css", "./html/list-page.html", "./js/list-page.js", "./json/taskslists.json", "./imgs/png/"];
+const cachedAssets = [
+    "./", 
+    "./index.html", 
+    "./css/styles.css", 
+    "./html/list-page.html", 
+    "./html/detail-page.html", 
+    "./html/add-to-do-list.html", 
+    "./html/edit-to-do-list.html", 
+    "./js/list-page.js", 
+    "./js/detail-page.js", 
+    "./js/add-to-do-list.js", 
+    "./js/edit-to-do-list.js", 
+    "./json/tasks.json", 
+    "./json/taskslists.json", 
+    "./imgs/png/",
+    "./imgs/svg/"
+];
 
 self.addEventListener("install", (e) => {
     e.waitUntil(
