@@ -2,7 +2,6 @@
 let mainTitle = document.getElementById("main-title");
 let mainSubtitle = document.getElementById("main-subtitle");
 let listType = document.getElementById("list-type");
-let addNewTaskForm = document.getElementById("addTaskForm");
 let totalCount = document.getElementById("total-count");
 let pendingCount = document.getElementById("pending-count");
 let doneCount = document.getElementById("done-count");

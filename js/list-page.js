@@ -1,11 +1,5 @@
 /* Elementos HTML DOM */
-let body = document.getElementById("body");
-let navGoBack = document.getElementById("back-to-lists");
-let mainTitle = document.getElementById("main-title");
-let mainSubtitle = document.getElementById("main-subtitle");
-let listType = document.getElementById("list-type");
 let appContentContainer = document.getElementById("dinamic-content");
-let deleteTaskListButton;
 let taskListPage;
 
 
