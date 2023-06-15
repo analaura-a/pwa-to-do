@@ -1,29 +1,24 @@
 /* Elementos HTML DOM */
 let appContentContainer = document.getElementById("dinamic-content");
 let taskListPage;
+
+
+/* Almacenamiento (función) */
 almacenamiento.agregar('button', `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewbox="0 0 48 48">
 <path fill="#949BA3" d="M38 22H26V10a2 2 0 1 0-4 0v12H10a2 2 0 1 0 0 4h12v12a2 2 0 0 0 4 0V26h12a2 2 0 0 0 0-4Z" />
 </svg><p>Agregar una nueva lista</p>`);
+almacenamiento.agregar('rutaTasklist', '../json/taskslists.json');
+almacenamiento.agregar('rutaTasks', '../json/tasks.json');
 
 
 /* FETCH */
-async function fetchTaskLists() {
+async function fetchTasksData(ruta){
   try {
-    let response = await fetch("../json/taskslists.json");
-    let taskLists = await response.json();
-    return taskLists;
+    let response = await fetch(ruta);
+    let data = await response.json();
+    return data;
   } catch (error) {
-    console.log('Hubo un error al intentar obtener el JSON de las listas');
-  }
-}
-
-async function fetchTasks(){
-  try {
-    let response = await fetch("../json/tasks.json");
-    let tasks = await response.json();
-    return tasks;
-  } catch (error) {
-    console.log('Hubo un error al intentar obtener el JSON de las tareas');
+    console.log('Hubo un error al intentar obtener la información del JSON', error);
   }
 }
 
@@ -72,19 +67,39 @@ function createDatabase(){
     // Verificamos si la base de datos ya se ha inicializado, para no repetir
     if (!dbInitialized) {
 
-        // Agregamos las listas de tareas existentes en el JSON a nuestra base de datos indexedDB
-        fetchTaskLists()
+      // Agregamos las listas de tareas existentes en el JSON a nuestra base de datos indexedDB
+      almacenamiento.leer('rutaTasklist').then((ruta) => {
+        fetchTasksData(ruta)
         .then((data) => {
           addingJSONTaskLists(data);
         })
         .catch((json) => console.log(json));
+      });
 
-        // Agregamos las tareas existentes en el JSON a nuestra base de datos indexedDB
-        fetchTasks()
+      // Agregamos las tareas existentes en el JSON a nuestra base de datos indexedDB
+      almacenamiento.leer('rutaTasks').then((ruta) => {
+        fetchTasksData(ruta)
         .then((data) => {
           addingJSONTasks(data);
         })
         .catch((json) => console.log(json));
+      });
+
+    
+
+        // Agregamos las listas de tareas existentes en el JSON a nuestra base de datos indexedDB
+        // fetchTaskLists()
+        // .then((data) => {
+        //   addingJSONTaskLists(data);
+        // })
+        // .catch((json) => console.log(json));
+
+        // // Agregamos las tareas existentes en el JSON a nuestra base de datos indexedDB
+        // fetchTasks()
+        // .then((data) => {
+        //   addingJSONTasks(data);
+        // })
+        // .catch((json) => console.log(json));
 
     }
 
