@@ -12,6 +12,7 @@ const cachedAssets = [
   "./js/detail-page.js",
   "./js/add-to-do-list.js",
   "./js/edit-to-do-list.js",
+  "./js/almacenamiento.js",
   "./json/tasks.json",
   "./json/taskslists.json",
   "./imgs/png/icon-72x72.png",

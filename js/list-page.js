@@ -1,6 +1,9 @@
 /* Elementos HTML DOM */
 let appContentContainer = document.getElementById("dinamic-content");
 let taskListPage;
+almacenamiento.agregar('button', `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewbox="0 0 48 48">
+<path fill="#949BA3" d="M38 22H26V10a2 2 0 1 0-4 0v12H10a2 2 0 1 0 0 4h12v12a2 2 0 0 0 4 0V26h12a2 2 0 0 0 0-4Z" />
+</svg><p>Agregar una nueva lista</p>`);
 
 
 /* FETCH */
@@ -259,11 +262,9 @@ let crearButtonNewList = function (container) {
   ancla.classList.add("add-list");
   ancla.setAttribute("href", "add-to-do-list.html");
   ancla.setAttribute("id", "add-list");
-  ancla.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewbox="0 0 48 48">
-        <path fill="#949BA3"
-            d="M38 22H26V10a2 2 0 1 0-4 0v12H10a2 2 0 1 0 0 4h12v12a2 2 0 0 0 4 0V26h12a2 2 0 0 0 0-4Z" />
-  </svg>
-  <p>Agregar una nueva lista</p>`;
+  almacenamiento.leer('button').then((data) => {
+    ancla.innerHTML = data;
+  })
 
   container.appendChild(ancla);
 };
