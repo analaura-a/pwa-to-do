@@ -4,11 +4,11 @@ let taskListPage;
 
 
 /* Almacenamiento (función) */
+almacenamiento.agregar('rutaTasklist', '../json/taskslists.json');
+almacenamiento.agregar('rutaTasks', '../json/tasks.json');
 almacenamiento.agregar('button', `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewbox="0 0 48 48">
 <path fill="#949BA3" d="M38 22H26V10a2 2 0 1 0-4 0v12H10a2 2 0 1 0 0 4h12v12a2 2 0 0 0 4 0V26h12a2 2 0 0 0 0-4Z" />
 </svg><p>Agregar una nueva lista</p>`);
-almacenamiento.agregar('rutaTasklist', '../json/taskslists.json');
-almacenamiento.agregar('rutaTasks', '../json/tasks.json');
 
 
 /* FETCH */
@@ -73,7 +73,7 @@ function createDatabase(){
         .then((data) => {
           addingJSONTaskLists(data);
         })
-        .catch((json) => console.log(json));
+        .catch((error) => console.log('Ocurrió un error intentando obtener el JSON de las listas', error));
       });
 
       // Agregamos las tareas existentes en el JSON a nuestra base de datos indexedDB
@@ -82,24 +82,8 @@ function createDatabase(){
         .then((data) => {
           addingJSONTasks(data);
         })
-        .catch((json) => console.log(json));
+        .catch((error) => console.log('Ocurrió un error intentando obtener el JSON de las tareas', error));
       });
-
-    
-
-        // Agregamos las listas de tareas existentes en el JSON a nuestra base de datos indexedDB
-        // fetchTaskLists()
-        // .then((data) => {
-        //   addingJSONTaskLists(data);
-        // })
-        // .catch((json) => console.log(json));
-
-        // // Agregamos las tareas existentes en el JSON a nuestra base de datos indexedDB
-        // fetchTasks()
-        // .then((data) => {
-        //   addingJSONTasks(data);
-        // })
-        // .catch((json) => console.log(json));
 
     }
 
