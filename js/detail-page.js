@@ -10,6 +10,11 @@ let doneTasksContainer = document.getElementById('tasksDone');
 let deleteButton = document.getElementById('delete-list');
 
 
+/* Almacenamiento (función) */
+almacenamiento.agregar('emptyStatePending', `<p>¡No hay tareas pendientes!</p>`);
+almacenamiento.agregar('emptyStateDone', `<p>¡Aún no hay tareas completadas!</p>`);
+
+
 /* Obtenemos el índice de la lista a través de localStorage */
 let tasklistIndex = JSON.parse(localStorage.getItem('tasklist'));
 
@@ -93,6 +98,10 @@ function renderTasklist(){
   // Transacción con error
   transaction.onerror = (e) => {
     console.log('Ocurrió un problema al realizar la transaction [renderTasklist]', e);
+
+    mainTitle.textContent = 'Ocurrió un problema al intentar cargar esta lista...';
+    mainSubtitle.textContent = 'Por favor, ¡inténtalo de nuevo más tarde!';
+    listType.textContent = '¡Oh, no!';
   };
     
 }
@@ -158,7 +167,11 @@ function renderTasks(){
     let pendingTasks = e.target.result;
 
     if (pendingTasks.length === 0){
-        pendingTasksContainer.innerHTML = "<p>¡No hay tareas pendientes!</p>"
+
+      almacenamiento.leer('emptyStatePending').then((data) => {
+        pendingTasksContainer.innerHTML = data;
+      });
+
     } else {
       pendingTasks.forEach((task) => {
         let taskItem =  
@@ -199,7 +212,11 @@ function renderTasks(){
     let doneTasks = e.target.result;
 
     if (doneTasks.length === 0){
-      doneTasksContainer.innerHTML = "<p>¡No hay tareas completadas!</p>"
+
+      almacenamiento.leer('emptyStateDone').then((data) => {
+        doneTasksContainer.innerHTML = data;
+      });
+
     } else {
       doneTasks.forEach((task) => {
         let taskItem =  

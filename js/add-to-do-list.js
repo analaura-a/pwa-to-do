@@ -85,10 +85,7 @@ function addNewList(e) {
 
   // Transacción completada
   transaction.oncomplete = () => {
-
     console.log('Transaction [addNewList] completada con éxito');
-
-    db.close();
   };
 
   // Transacción con error

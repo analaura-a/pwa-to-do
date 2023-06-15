@@ -140,7 +140,7 @@ function addingJSONTaskLists(data){
 
 function addingJSONTasks(data){
 
-  // Realizamos la transacción para agregar las listas del JSON a indexedDB
+  // Realizamos la transacción para agregar las tareas del JSON a indexedDB
   const transaction = db.transaction(['toDoTasks'], 'readwrite');
   let objectStore = transaction.objectStore('toDoTasks');
 
@@ -212,7 +212,6 @@ function renderTaskLists() {
     });
 
     array.forEach(taskList => {
-
       //Les agregamos un evento para obtener y setear su ID en localStorage al hacerles click
       taskListPage = document.getElementById(`${taskList.id}`);
       taskListPage.addEventListener("click", () => {
@@ -236,6 +235,8 @@ function renderTaskLists() {
 
   transaction.onerror = (e) => {
     console.log('Ocurrió un problema al realizar la transaction [renderTaskLists]', e);
+
+    divTasklistsContainer.innerHTML += `<p>¡Oh, no! Ocurrió un problema al intentar mostrar las listas, inténtalo de nuevo más tarde.</p>`
   };
 
 }
