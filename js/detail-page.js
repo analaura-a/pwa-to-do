@@ -133,6 +133,9 @@ function renderTaskCounters(){
 
   transaction.onerror = (e) => {
     console.error('Ocurrió un problema al realizar la transaction [renderTaskCounters]', e);
+    totalCount.textContent = 0;
+    pendingCount.textContent = 0;
+    doneCount.textContent = 0;
   };
 
 }

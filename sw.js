@@ -14,8 +14,17 @@ const cachedAssets = [
   "./js/edit-to-do-list.js",
   "./json/tasks.json",
   "./json/taskslists.json",
-  "./imgs/png/",
-  "./imgs/svg/",
+  "./imgs/png/icon-72x72.png",
+  "./imgs/png/icon-96x96.png",
+  "./imgs/png/icon-128x128.png",
+  "./imgs/png/icon-144x144.png",
+  "./imgs/png/icon-152x152.png",
+  "./imgs/png/icon-192x192.png",
+  "./imgs/png/icon-384x384.png",
+  "./imgs/png/icon-512x512.png",
+  "./imgs/svg/check-list.svg",
+  "./imgs/svg/logo-to-do.svg",
+  "./manifest.json",
 ];
 
 self.addEventListener("install", (e) => {
@@ -41,10 +50,6 @@ self.addEventListener("activate", (e) => {
       );
     })
   );
-});
-
-self.addEventListener("fetch", (e) => {
-  e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
 });
 
 //Estrategia de caché (Cache first, falling back to network)
